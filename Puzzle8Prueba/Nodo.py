@@ -1,4 +1,4 @@
-from Tablero import tablero
+from Tablero import Tablero
 from copy import deepcopy
 
 class Nodo:
@@ -12,7 +12,7 @@ class Nodo:
             
     def setChild(self):
         self.childs = []
-        for _dir in self.Taclero.moves():
+        for _dir in self.Tablero.moves():
             auxN = Nodo(father=self, dir=_dir)
             self.childs(append(auxN))
             

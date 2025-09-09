@@ -6,8 +6,8 @@ class Tablero:
     def __init__(self,nums=[[1,2,3],[4,5,6],[7,8,0]]):
         self.nums = nums 
         
-        def Solucion(self):
-            return self.nums == sol
+    def Solucion(self):
+        return self.nums == sol
     
     def vacio(self):
         for ir, r in enumerate(self.nums):
@@ -15,7 +15,7 @@ class Tablero:
                 if c == 0:
                     return ir, ic
                 
-    def moves(self):
+    def movimientos(self):
         r,c = self.vacio()
         return movimientos[r][c]          
     

@@ -1,81 +1,82 @@
 import tkinter as tk
-from Nodo import Nodo,Tablero
+from Nodo import Nodo,Tablero,solve
 
-movimientos=  [[1,3],[0,2,4],[1,5],
+moves=  [[1,3],[0,2,4],[1,5],
                [0,4,6],[1,3,5,7],[2,4,8],
                [3,7],[4,6,8],[5,7]]
 
 class App(tk.Tk):
     def __init__(self, * args, **kargs):
         tk.Tk.__init__(self, *args, **kargs)
-        self.geometry('650x800')
+        self.geometry('650x600')
         self.container = tk.Frame(self,bg='red')
         self.container.place(relx=0,rely=0,relwidth=1,relheight=1)
         fTab = Frame_Tablero(self.container,self)
         fTab.tkraise()
         
 class Ficha:
-    cont = 0
+    contador = 0
     def __init__(self, r, c, n, frame, mover_callback=None):
         self.frame = frame
         self.r = r
         self.c = c
         self.n = n
-        self.cont = Ficha.cont
-        Ficha.cont += 1
+        self.contador = Ficha.contador
+        Ficha.contador +=  1
         if n != 0:
-            self.boton = tk.Button(
-                self.frame,
-                text=str(self.n),
-                font=('Times new Roman', 24),
-                bg='white',
-                fg='black',
-                command=lambda: mover_callback(self.cont, self.r, self.c) if mover_callback else None
-            )
-            self.boton.place(relx=c*0.33, rely=r*0.33, relwidth=0.33, relheight=0.33)
+            self.button = tk.Button(self.frame, text=str(self.n), font=('Times new Roman', 42),  bg='white', fg='blue', command=lambda: frame.move(self.contador, self.r, self.c))
+            self.button.place(relx=1/26+self.c*(4/13), rely= 0.05+self.r*(1/4), relheight=1/4, relwidth=4/13)
         else:
-            self.boton = tk.Button(
-                self.frame,
-                text='',
-                font=('Times new Roman', 24),
-                bg='white',
-                fg='black',
-                command=lambda: mover_callback(self.cont, self.r, self.c) if mover_callback else None
-            )
-            self.boton.place(relx=c*0.33, rely=r*0.33, relwidth=0.33, relheight=0.33)
+            self.button = tk.Button(self.frame, text='',  font=('Times new Roman', 42),bg='white', fg='blue', command=lambda: frame.move(self.contador,self.r, self.c))
+            self.button.place(relx=1/26+self.c*(4/13), rely= 0.05+self.r*(1/4), relheight=1/4, relwidth=4/13)   
             
             
 class Frame_Tablero(tk.Frame):
+    
+    def solve(self):
+        nodo_inicial = Nodo(nums=self.aux_tablero.nums)
+        camino = solve(nodo_inicial)
+        if camino:
+            print("Solución encontrada con", len(camino)-1, "movimientos")
+            self.showAdvance(camino)
+        else:
+            print("No hay solución para este tablero")
+
+    def showAdvance(self, camino, paso=0):
+        if paso < len(camino):
+            self.actualizar(camino[paso].Tablero.nums)
+            self.after(100, lambda: self.showAdvance(camino, paso+1)) 
+
     def __init__(self, parent, root):
         self.root = root
-        tk.Frame.__init__(self, parent, bg='blue')
+        tk.Frame.__init__(self, parent, bg='gray')
         self.place(relx=0, rely=0, relwidth=1, relheight=1)
-        b_resuelve = tk.Button(self, text='Resolver', font=('Times new Roman', 24), bg='white', fg='black', command=self.solucion)
-        b_resuelve.place(relx=0.1, rely=0.9, relwidth=0.3, relheight=0.1)
-        b_nums = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
-        self.aux_tablero = Tablero(b_nums)
+        b_solve = tk.Button(self, text='Resolver', command=lambda:self.solve(), font=('Times new Roman', 42), bg='white', fg='blue',padx=40,pady=20)
+        b_solve.place(relx=0.3, rely=0.85, relwidth=0.4, relheight=0.1)
+        self.nums = [[1, 2, 3], [4, 5, 6], [7, 8, 0]]
+        self.aux_tablero = Tablero(self.nums)
+        
+        
         self.fichas = []
-        for ir, r in enumerate(b_nums):
+        for ir, r in enumerate(self.nums):
             for ic, c in enumerate(r):
-                aux = Ficha(ir, ic, c, self, self.mover)
+                aux = Ficha(ir, ic, c, self)
                 self.fichas.append(aux)
-                
-    def solucion(self):
-        pass
+            
                 
     # Mover fichas
-    def mover(self, icont, fr, fc):
-        er, ec = self.aux_tablero.vacio()
+    def move(self, icontador, fr, fc):
+        er, ec = self.aux_tablero.empty()
         ficha_idx = fr * 3 + fc
         vacio_idx = er * 3 + ec
         auxm = None
-        if vacio_idx in movimientos[ficha_idx]:
+        if vacio_idx in moves[ficha_idx]:
             if er == fr:
                 auxm = 'l' if fc < ec else 'r'
             else:
                 auxm = 'u' if fr < er else 'd'
         if auxm:
-            self.aux_tablero.moverse(auxm)
+            self.aux_tablero.makeMove(auxm)
             self.actualizar(self.aux_tablero.nums)
         
     def actualizar(self, nums):
@@ -83,9 +84,9 @@ class Frame_Tablero(tk.Frame):
         for ir, r in enumerate(nums):
             for ic,c in enumerate(r):
                 if c != 0:
-                    self.fichas[aux].boton.config(text=str(c),background='black',fg='white',borderwidth=10,relief='raised')
+                    self.fichas[aux].button.config(text=str(c),background='white',fg='blue',borderwidth=10,relief='raised')
                 else:
-                    self.fichas[aux].boton.config(text='',background='white', borderwidth=2,relief='sunken')
+                    self.fichas[aux].button.config(text='',background='white',fg='blue', borderwidth=2,relief='raised')
                 aux += 1
         
         

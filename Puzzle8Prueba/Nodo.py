@@ -18,6 +18,13 @@ class Nodo:
         for _dir in self.Tablero.moves():
             auxN = Nodo(father=self, dir=_dir)
             self.childs.append(auxN)
+            
+    def generar_hijos(self):
+        hijos = []
+        for _dir in self.Tablero.moves():
+            hijo = Nodo(father=self, dir=_dir)
+            hijos.append(hijo)
+        return hijos
    
 def is_in(lista, elemento):
     for x in lista:
@@ -46,14 +53,19 @@ def busquedaAmplitud(root):
     print("No hay solución.")
     return None
 
-def solve(root):
-    sol= busquedaAmplitud(root)
-    camino = []
-    aux = sol
-    while True:
-        camino.insert(0,aux)
-        aux = aux.father
-        if aux == None:
-            break
-    return camino
-    
+def solve(nodo_inicial):
+    from collections import deque
+    visitados = set()
+    cola = deque()
+    cola.append((nodo_inicial, []))
+    while cola:
+        nodo, camino = cola.popleft()
+        estado = tuple(sum(nodo.Tablero.nums, []))  # Convierte la matriz a tupla plana
+        if estado in visitados:
+            continue
+        visitados.add(estado)
+        if nodo.Tablero.isSolution():  # Cambiado a isSolution
+            return camino + [nodo]
+        for hijo in nodo.generar_hijos():  # Usar el nuevo método
+            cola.append((hijo, camino + [nodo]))
+    return None

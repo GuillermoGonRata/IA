@@ -1,5 +1,5 @@
 sol =  [[1, 2, 3],[4, 5, 6],[7, 8, 0]]
-movesList = [[['r','d'],['l','r','d'],['l','d']], # Up, Down, Right, Left
+listaMovimientos = [[['r','d'],['l','r','d'],['l','d']], # Up, Down, Right, Left
                     [['r','u','d'],['l','r','u','d'],['l','u','d']],
                     [['u','r'],['l','u','r'],['l','u']]]
 
@@ -18,7 +18,7 @@ class Tablero:
                 
     def moves(self):
         i,j = self.empty()
-        return movesList[i][j]          
+        return listaMovimientos[i][j]          
     
     def makeMove(self, dir):
         i,j = self.empty()

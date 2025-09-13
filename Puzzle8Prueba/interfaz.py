@@ -60,16 +60,16 @@ class Frame_Tablero(tk.Frame):
         if camino:
             self.movimientos_label.config(text=f"Movimientos: {len(camino)-1}")
             self.nodosExplorados.config(text=f"NodosExplorados: {explorados}") 
-            self.showAdvance(camino)
+            self.mostrarMovimientos(camino)
             messagebox.showinfo("Solución encontrada", f"Solución encontrada en {len(camino)-1} movimientos.")
         else:
             self.movimientos_label.config(text="No hay solución")
             messagebox.showinfo("Sin solución", "No hay solución para este tablero.")
 
-    def showAdvance(self, camino, paso=0):
+    def mostrarMovimientos(self, camino, paso=0):
         if paso < len(camino):
             self.actualizar(camino[paso].Tablero.nums)
-            self.after(100, lambda: self.showAdvance(camino, paso+1)) 
+            self.after(100, lambda: self.mostrarMovimientos(camino, paso+1)) 
 
     def __init__(self, parent, root):
         self.root = root
@@ -83,11 +83,11 @@ class Frame_Tablero(tk.Frame):
         b_solve = tk.Button(self, text='Resolver', command=lambda:self.busquedaAmplitud(), font=('Times new Roman', 24), bg='white', fg='blue', padx=10, pady=5)
         b_solve.place(relx=0.3, rely=0.85, relwidth=0.4, relheight=0.1)
 
-        b_nuevo = tk.Button(self, text='Nuevo Aleatorio', command=self.nuevo_aleatorio, font=('Times new Roman', 14), bg='white', fg='green')
+        b_nuevo = tk.Button(self, text='Nuevo Aleatorio', command=self.nuevoAleatorio, font=('Times new Roman', 14), bg='white', fg='green')
         b_nuevo.place(relx=0.05, rely=0.75, relwidth=0.20, relheight=0.08)
 
-        b_config = tk.Button(self, text='Configurar', command=self.configurar_tablero, font=('Times new Roman', 14), bg='white', fg='purple')
-        b_config.place(relx=0.7, rely=0.75, relwidth=0.20, relheight=0.08)
+        b_config = tk.Button(self, text='Configurar', command=self.configurarTablero, font=('Times new Roman', 14), bg='white', fg='purple')
+        b_config.place(relx=0.75, rely=0.75, relwidth=0.20, relheight=0.08)
 
         self.movimientos_label = tk.Label(self, text="Movimientos: 0", font=('Times new Roman', 16), bg='gray', fg='black')
         self.movimientos_label.place(relx=0.35, rely=0.70, relwidth=0.3, relheight=0.08)
@@ -95,7 +95,7 @@ class Frame_Tablero(tk.Frame):
         self.nodosExplorados = tk.Label(self, text="NodosExplorados: 0", font=('Times new Roman', 16), bg='gray', fg='black')
         self.nodosExplorados.place(relx=0.35, rely=0.75, relwidth=0.35, relheight=0.08)
 
-        self.nums = generar_tablero_aleatorio()
+        self.nums = generarTableroAleatorio()
         self.aux_tablero = Tablero(self.nums)
 
         self.fichas = []
@@ -107,20 +107,20 @@ class Frame_Tablero(tk.Frame):
             self.fichas.append(fila)
         self.actualizar(self.nums)
 
-    def nuevo_aleatorio(self):
-        self.nums = generar_tablero_aleatorio()
+    def nuevoAleatorio(self):
+        self.nums = generarTableroAleatorio()
         self.aux_tablero = Tablero(self.nums)
         self.actualizar(self.nums)
         self.movimientos_label.config(text="Movimientos: 0")
 
-    def configurar_tablero(self):
+    def configurarTablero(self):
         entrada = simpledialog.askstring("Configurar tablero", "Introduce los 9 números separados por espacios (usa 0 para el espacio vacío):\nEjemplo: 1 2 3 4 5 6 7 8 0")
         if entrada:
             try:
                 valores = [int(x) for x in entrada.strip().split()]
                 if sorted(valores) != list(range(9)):
                     raise ValueError
-                if not es_resoluble(valores):
+                if not esResoluble(valores):
                     messagebox.showerror("No resoluble", "La configuración no es resoluble.")
                     return
                 self.nums = [valores[i*3:(i+1)*3] for i in range(3)]
@@ -154,7 +154,7 @@ class Frame_Tablero(tk.Frame):
                     ficha.button.config(text='', background='white', fg='blue', borderwidth=2, relief='ridge')
         
         
-def es_resoluble(nums_flat):
+def esResoluble(nums_flat):
     inv = 0
     for i in range(len(nums_flat)):
         for j in range(i+1, len(nums_flat)):
@@ -162,11 +162,11 @@ def es_resoluble(nums_flat):
                 inv += 1
     return inv % 2 == 0
 
-def generar_tablero_aleatorio():
+def generarTableroAleatorio():
     nums_flat = list(range(9))
     while True:
         random.shuffle(nums_flat)
-        if es_resoluble(nums_flat):
+        if esResoluble(nums_flat):
             break
     # Convierte la lista plana a una matriz 3x3
     return [nums_flat[i*3:(i+1)*3] for i in range(3)]

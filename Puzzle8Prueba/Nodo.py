@@ -13,20 +13,15 @@ class Nodo:
             self.Tablero.makeMove(dir=dir)
    
             
-    def set_childs(self):
-        self.childs = []
-        for _dir in self.Tablero.moves():
-            auxN = Nodo(father=self, dir=_dir)
-            self.childs.append(auxN)
-            
-    def generar_hijos(self):
-        hijos = []
+    def generarHijos(self):
+        self.hijos = []
         for _dir in self.Tablero.moves():
             hijo = Nodo(father=self, dir=_dir)
-            hijos.append(hijo)
-        return hijos
+            self.hijos.append(hijo)
+        return self.hijos
+            
    
-def is_in(lista, elemento):
+def estaEn(lista, elemento):
     for x in lista:
         if x == elemento:
             return True
@@ -47,6 +42,6 @@ def busquedaAmplitud(nodo_inicial):
         contExp += 1  
         if nodo.Tablero.isSolution():
             return camino + [nodo], contExp
-        for hijo in nodo.generar_hijos():  
+        for hijo in nodo.generarHijos():  
             cola.append((hijo, camino + [nodo]))
     return None,contExp

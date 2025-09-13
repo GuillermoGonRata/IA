@@ -37,7 +37,9 @@ Urias Lugo Guillermo #22170838
    
 ## Uso
 1. Instrucciones sobre cómo ejecutar la aplicación:
-    Para poder ejecutar nuestro puzzle 8, solo necesitara ejecutar el programa "interfaz.py"
+    Para poder ejecutar nuestro puzzle 8, solo necesitara ejecutar el programa "interfaz.py".
+
+   
  ![ejemplo ejecucion](Puzzle8Prueba/img/interfaz.png)
 3. Al ejecutarla ya se le dara una seed con un tablero de numeros revueltos que el algoritmo intentara resolver.
 4. A su vez, puede pedirle que cree una semilla de manera aleatoria si es que quiere que resuelva una diferente o bien

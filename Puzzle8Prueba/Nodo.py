@@ -32,40 +32,21 @@ def is_in(lista, elemento):
             return True
     return False
 
-def busquedaAmplitud(root):
-    x = [root]
-    visitados = []
-    it  = 0
-    while x:
-        it +=1
-        if x[0].Tablero.isSolution():
-            print('Nodos recorridos',it)
-            return x[0]
-        else:
-            x[0].set_childs()
-            auxChilds = x[0].childs
-            visitados.append(x[0].Tablero.nums)
-            x.pop(0)
-            for ci in auxChilds:
-                if not is_in(visitados,ci.Tablero.nums):
-                    x += [ci]
-            print('Movimientos: ',it,' Nodos por visitar: ',len(x),' Visitados: ',len(visitados))
-    print("No hay solución.")
-    return None
-
-def solve(nodo_inicial):
+def busquedaAmplitud(nodo_inicial):
     from collections import deque
-    visitados = set()
+    visitados = set()  #Guarda los estados visitados para nminimizar repeticiones
     cola = deque()
     cola.append((nodo_inicial, []))
+    contExp = 0  # Contador de nodos explorados
     while cola:
         nodo, camino = cola.popleft()
         estado = tuple(sum(nodo.Tablero.nums, []))  # Convierte la matriz a tupla plana
         if estado in visitados:
             continue
         visitados.add(estado)
-        if nodo.Tablero.isSolution():  # Cambiado a isSolution
-            return camino + [nodo]
-        for hijo in nodo.generar_hijos():  # Usar el nuevo método
+        contExp += 1  
+        if nodo.Tablero.isSolution():
+            return camino + [nodo], contExp
+        for hijo in nodo.generar_hijos():  
             cola.append((hijo, camino + [nodo]))
-    return None
+    return None,contExp

@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import simpledialog, messagebox
-from Nodo import Nodo, Tablero, solve
+from Nodo import Nodo, Tablero, busquedaAmplitud
 import random
 
 moves=  [[1,3],[0,2,4],[1,5],
@@ -54,12 +54,14 @@ class Ficha:
             
 class Frame_Tablero(tk.Frame):
     
-    def solve(self):
+    def busquedaAmplitud(self):
         nodo_inicial = Nodo(nums=self.aux_tablero.nums)
-        camino = solve(nodo_inicial)
+        camino, explorados = busquedaAmplitud(nodo_inicial)
         if camino:
             self.movimientos_label.config(text=f"Movimientos: {len(camino)-1}")
+            self.nodosExplorados.config(text=f"NodosExplorados: {explorados}") 
             self.showAdvance(camino)
+            messagebox.showinfo("Solución encontrada", f"Solución encontrada en {len(camino)-1} movimientos.")
         else:
             self.movimientos_label.config(text="No hay solución")
             messagebox.showinfo("Sin solución", "No hay solución para este tablero.")
@@ -78,17 +80,20 @@ class Frame_Tablero(tk.Frame):
         self.tablero_frame = tk.Frame(self, bg='gray')
         self.tablero_frame.place(relx=0.1, rely=0.05, relwidth=0.8, relheight=0.6)
 
-        b_solve = tk.Button(self, text='Resolver', command=lambda:self.solve(), font=('Times new Roman', 24), bg='white', fg='blue', padx=10, pady=5)
+        b_solve = tk.Button(self, text='Resolver', command=lambda:self.busquedaAmplitud(), font=('Times new Roman', 24), bg='white', fg='blue', padx=10, pady=5)
         b_solve.place(relx=0.3, rely=0.85, relwidth=0.4, relheight=0.1)
 
         b_nuevo = tk.Button(self, text='Nuevo Aleatorio', command=self.nuevo_aleatorio, font=('Times new Roman', 14), bg='white', fg='green')
-        b_nuevo.place(relx=0.05, rely=0.75, relwidth=0.25, relheight=0.08)
+        b_nuevo.place(relx=0.05, rely=0.75, relwidth=0.20, relheight=0.08)
 
         b_config = tk.Button(self, text='Configurar', command=self.configurar_tablero, font=('Times new Roman', 14), bg='white', fg='purple')
-        b_config.place(relx=0.7, rely=0.75, relwidth=0.25, relheight=0.08)
+        b_config.place(relx=0.7, rely=0.75, relwidth=0.20, relheight=0.08)
 
         self.movimientos_label = tk.Label(self, text="Movimientos: 0", font=('Times new Roman', 16), bg='gray', fg='black')
-        self.movimientos_label.place(relx=0.35, rely=0.75, relwidth=0.3, relheight=0.08)
+        self.movimientos_label.place(relx=0.35, rely=0.70, relwidth=0.3, relheight=0.08)
+        
+        self.nodosExplorados = tk.Label(self, text="NodosExplorados: 0", font=('Times new Roman', 16), bg='gray', fg='black')
+        self.nodosExplorados.place(relx=0.35, rely=0.75, relwidth=0.35, relheight=0.08)
 
         self.nums = generar_tablero_aleatorio()
         self.aux_tablero = Tablero(self.nums)

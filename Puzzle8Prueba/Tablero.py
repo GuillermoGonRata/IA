@@ -1,5 +1,5 @@
 sol =  [[1, 2, 3],[4, 5, 6],[7, 8, 0]]
-movesList = [[['r','d'],['l','r','d'],['l','d']], # Under, Down, Right, Left
+movesList = [[['r','d'],['l','r','d'],['l','d']], # Up, Down, Right, Left
                     [['r','u','d'],['l','r','u','d'],['l','u','d']],
                     [['u','r'],['l','u','r'],['l','u']]]
 
@@ -11,31 +11,31 @@ class Tablero:
         return self.nums == sol
     
     def empty(self):
-        for ir, r in enumerate(self.nums):
-            for ic, c in enumerate(r):
-                if c == 0:
+        for ir, i in enumerate(self.nums):
+            for ic, j in enumerate(i):
+                if j == 0:
                     return ir, ic
                 
     def moves(self):
-        r,c = self.empty()
-        return movesList[r][c]          
+        i,j = self.empty()
+        return movesList[i][j]          
     
     def makeMove(self, dir):
-        r,c = self.empty()
+        i,j = self.empty()
         
         if dir=='l':
-            aux = self.nums[r][c]
-            self.nums[r][c] = self.nums[r][c-1]
-            self.nums[r][c-1] = aux
+            aux = self.nums[i][j]
+            self.nums[i][j] = self.nums[i][j-1]
+            self.nums[i][j-1] = aux
         elif dir=='r':
-            aux = self.nums[r][c]
-            self.nums[r][c] = self.nums[r][c+1]
-            self.nums[r][c+1] = aux
+            aux = self.nums[i][j]
+            self.nums[i][j] = self.nums[i][j+1]
+            self.nums[i][j+1] = aux
         elif dir=='u':
-            aux = self.nums[r][c]
-            self.nums[r][c] = self.nums[r-1][c]
-            self.nums[r-1][c] = aux
+            aux = self.nums[i][j]
+            self.nums[i][j] = self.nums[i-1][j]
+            self.nums[i-1][j] = aux
         elif dir=='d':
-            aux = self.nums[r][c]
-            self.nums[r][c] = self.nums[r+1][c]
-            self.nums[r+1][c] = aux
+            aux = self.nums[i][j]
+            self.nums[i][j] = self.nums[i+1][j]
+            self.nums[i+1][j] = aux

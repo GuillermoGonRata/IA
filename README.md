@@ -15,9 +15,9 @@ Urias Lugo Guillermo #22170838
     - El metodo moves Usa la posicion del 0, para consultar en moves_List los movimientos que se pueden realizar y retornar una lista de valores tipo char que indican que direccion pueden tomar
     - Y finalmente el metodo makeMove crea una variable llamada dir, la cual le dice al tablero que direccion puede tomar el espacio vacio e intercambiar de posicion con un numero.
  ## Archivo Nodo
-     - Primero esta clase importa tablero para manejar los estados que puede tomar e importa deepcopy para copiar tableros       sin que se modifiquen entre los nodos 
+     - Primero esta clase importa tablero para manejar los estados que puede tomar e importa deepcopy para copiar tableros sin que se modifiquen entre los nodos 
      - El metodo __init__ en esta clase se encarga de crear los nodos de los tableros 
-     - El metodo setChilds (o generar hijos) Genera todos los hijos posibles del nodo actual basandose en los diferentes movimientos validos.
+     - El metodo generaHijos Genera todos los hijos posibles del nodo actual basandose en los diferentes movimientos validos.
      - El metodo estaEn se encarga de revisar que un nodo ya haya sido visitado.
      - El metodo busquedaAmplitud es el que finalmente, llamando a los demas metodos, se encarga de buscar la solucion por medio del algoritmo del mismo nombre. 
      - 

@@ -6,7 +6,6 @@ Prueba nuestro algoritmo de busqueda en amplitrud para resolver el juego de puzz
 Gonzalez cardenas Guillermo #22170672
 Urias Lugo Guillermo #22170838
 
-## Getting Started
 # Archivos
  ## Clase tablero
  Fuera de la clase tablero se encuentran las variables sol y movs_list las cuales son una matriz de 3X3 con el estado de resolucion del tablero y los posibles movimientos que se pueden realizar desde una posicion de la matriz, respectivamente.

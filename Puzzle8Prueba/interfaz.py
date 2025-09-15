@@ -80,7 +80,7 @@ class Frame_Tablero(tk.Frame):
         self.tablero_frame = tk.Frame(self, bg='gray')
         self.tablero_frame.place(relx=0.1, rely=0.05, relwidth=0.8, relheight=0.6)
 
-        b_solve = tk.Button(self, text='Resolver', command=lambda:self.busquedaAmplitud(), font=('Times new Roman', 24), bg='white', fg='blue', padx=10, pady=5)
+        b_solve = tk.Button(self, text='Resolver', command=self.busquedaAmplitud, font=('Times new Roman', 24), bg='white', fg='blue', padx=10, pady=5)
         b_solve.place(relx=0.3, rely=0.85, relwidth=0.4, relheight=0.1)
 
         b_nuevo = tk.Button(self, text='Nuevo Aleatorio', command=self.nuevoAleatorio, font=('Times new Roman', 14), bg='white', fg='green')

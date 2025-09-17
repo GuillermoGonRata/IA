@@ -95,7 +95,7 @@ class Frame_Tablero(tk.Frame):
         self.nodosExplorados = tk.Label(self, text="NodosExplorados: 0", font=('Times new Roman', 16), bg='gray', fg='black')
         self.nodosExplorados.place(relx=0.35, rely=0.75, relwidth=0.35, relheight=0.08)
 
-        self.nums = generarTableroAleatorio()
+        self.nums = generarTableroInicial()
         self.aux_tablero = Tablero(self.nums)
 
         self.fichas = []
@@ -153,7 +153,6 @@ class Frame_Tablero(tk.Frame):
                 else:
                     ficha.button.config(text='', background='white', fg='blue', borderwidth=2, relief='ridge')
         
-        
 def esResoluble(nums_flat):
     inv = 0
     for i in range(len(nums_flat)):
@@ -162,17 +161,17 @@ def esResoluble(nums_flat):
                 inv += 1
     return inv % 2 == 0
 
-# def generarTableroAleatorio():
-#     nums_flat = list(range(9))
-#     while True:
-#         random.shuffle(nums_flat)
-#         if esResoluble(nums_flat):
-#             break
-#     # Convierte la lista plana a una matriz 3x3
-#     return [nums_flat[i*3:(i+1)*3] for i in range(3)]
-
 def generarTableroAleatorio():
-    numsFlat = [0, 3, 1, 2, 4, 5, 6, 7, 8]
+     nums_flat = list(range(9))
+     while True:
+         random.shuffle(nums_flat)
+         if esResoluble(nums_flat):
+             break
+     # Convierte la lista plana a una matriz 3x3
+     return [nums_flat[i*3:(i+1)*3] for i in range(3)]
+
+def generarTableroInicial():
+    numsFlat = [3,2,1,4,6,5,8,7,0]
     return [numsFlat[i*3:(i+1)*3] for i in range(3)]
 
 if __name__ == '__main__':

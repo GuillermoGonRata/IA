@@ -172,11 +172,7 @@ def esResoluble(nums_flat):
 #     return [nums_flat[i*3:(i+1)*3] for i in range(3)]
 
 def generarTableroAleatorio():
-    numsFlat = list(range(9))
-    while True:
-        numsFlat = [1,2,3,4,5,6,7,8,0]
-        if esResoluble(numsFlat):
-            break
+    numsFlat = [0, 3, 1, 2, 4, 5, 6, 7, 8]
     return [numsFlat[i*3:(i+1)*3] for i in range(3)]
 
 if __name__ == '__main__':

@@ -19,13 +19,6 @@ class Nodo:
             hijo = Nodo(father=self, dir=_dir)
             self.hijos.append(hijo)
         return self.hijos
-            
-   
-def estaEn(lista, elemento):
-    for x in lista:
-        if x == elemento:
-            return True
-    return False
 
 def busquedaAmplitud(nodo_inicial):
     from collections import deque

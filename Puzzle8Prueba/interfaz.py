@@ -130,7 +130,7 @@ class Frame_Tablero(tk.Frame):
             except Exception:
                 messagebox.showerror("Error", "Entrada inválida. Debes ingresar los números del 0 al 8 sin repetir.")
 
-    def move(self, icontador, fr, fc):
+    def move(self,fr, fc):
         er, ec = self.aux_tablero.empty()
         ficha_idx = fr * 3 + fc
         vacio_idx = er * 3 + ec
@@ -162,14 +162,22 @@ def esResoluble(nums_flat):
                 inv += 1
     return inv % 2 == 0
 
+# def generarTableroAleatorio():
+#     nums_flat = list(range(9))
+#     while True:
+#         random.shuffle(nums_flat)
+#         if esResoluble(nums_flat):
+#             break
+#     # Convierte la lista plana a una matriz 3x3
+#     return [nums_flat[i*3:(i+1)*3] for i in range(3)]
+
 def generarTableroAleatorio():
-    nums_flat = list(range(9))
+    numsFlat = list(range(9))
     while True:
-        random.shuffle(nums_flat)
-        if esResoluble(nums_flat):
+        numsFlat = [1,2,3,4,5,6,7,8,0]
+        if esResoluble(numsFlat):
             break
-    # Convierte la lista plana a una matriz 3x3
-    return [nums_flat[i*3:(i+1)*3] for i in range(3)]
+    return [numsFlat[i*3:(i+1)*3] for i in range(3)]
 
 if __name__ == '__main__':
     app = App()

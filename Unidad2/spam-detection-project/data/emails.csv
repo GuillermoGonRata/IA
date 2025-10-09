@@ -1,0 +1,11 @@
+sender,subject,content,links,attachments,is_spam
+example1@example.com,Exclusive Offer Just for You!,Congratulations! You've won a free gift card! Click here to claim your prize.,http://spamlink.com,none,1
+example2@example.com,Meeting Reminder,Don't forget our meeting tomorrow at 10 AM.,none,none,0
+example3@example.com,Get Rich Quick!,Earn money from home! No experience needed. Sign up now!,http://scamlink.com,none,1
+example4@example.com,Your Invoice is Ready,Please find your invoice attached.,none,invoice.pdf,0
+example5@example.com,Limited Time Promotion,Act now to get 50% off your next purchase!,http://offerlink.com,none,1
+example6@example.com,Newsletter Subscription,Thank you for subscribing to our newsletter.,none,none,0
+example7@example.com,Claim Your Free Prize!,You've been selected for a free prize! Click here to claim.,http://maliciouslink.com,none,1
+example8@example.com,Project Update,The project is on track for completion next week.,none,none,0
+example9@example.com,Important Security Update,Your account has been compromised. Please verify your identity.,http://phishinglink.com,none,1
+example10@example.com,Weekly Report,Here is the weekly report you requested.,none,report.pdf,0

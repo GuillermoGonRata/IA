@@ -1,46 +1,99 @@
-# Spam Detection Project
+# Análisis y Mapeo de Detección de Spam
 
-## Overview
-The Spam Detection Project aims to develop a robust system for identifying unwanted emails (spam) using various detection techniques. The project utilizes a dataset of emails, which includes both spam and legitimate emails, to create and evaluate spam detection rules.
+Este proyecto tiene como objetivo desarrollar un sistema robusto para detectar correos electrónicos no deseados (spam) utilizando reglas y análisis de datos. A continuación, se documenta el proceso siguiendo los pasos sugeridos en las instrucciones.
 
-## Project Structure
-The project is organized into the following directories and files:
+---
 
-- **data/**: Contains the dataset of emails.
-  - `emails.csv`: A CSV file with columns for sender, subject, content, links, attachments, and a label indicating whether the email is spam or not.
+## 1. Recogida de datos
 
-- **src/**: Contains the source code for the spam detection system.
-  - `SpamIndex.py`: Implements the main spam detection logic, including the `SpamDetectorReglas` class that analyzes emails based on predefined rules.
-  - `rules.py`: Defines additional rules for spam detection, encapsulating specific detection logic for modular management.
+Se utilizó el dataset público [`spam.csv`](../data/spam.csv), que contiene mensajes etiquetados como "spam" o "ham" (legítimos).  
+**Características del dataset:**
 
-- **notebooks/**: Contains Jupyter notebooks for data analysis.
-  - `data_analysis.ipynb`: Used for exploring the email dataset, including visualizations and statistical analyses to identify patterns in spam and legitimate emails.
+- **Remitente:** No disponible en este dataset.
+- **Asunto:** No disponible en este dataset.
+- **Contenido:** Disponible en la columna `Message`.
+- **Enlaces:** Se detectan buscando patrones de URLs en el contenido.
+- **Archivos adjuntos:** No disponible en este dataset.
 
-- **tests/**: Contains unit tests for the project.
-  - `test_rules.py`: Includes tests for the functions and classes defined in `rules.py` to ensure the spam detection rules work as expected.
+El dataset fue adaptado para el análisis y la detección de spam, mapeando las columnas a la estructura esperada por el sistema.
 
-- **requirements.txt**: Lists the dependencies required for the project, such as pandas and other libraries needed for data processing and analysis.
+---
 
-## Objectives
-- Develop a comprehensive understanding of spam detection mechanisms and email filtering principles.
-- Gain practical experience in collecting, organizing, and analyzing data related to spam detection.
-- Enhance critical thinking skills by creating and documenting rules for identifying unwanted emails.
-- Foster collaboration and peer learning through the exchange and testing of spam detection systems.
-- Reflect on the effectiveness of spam detection strategies and identify areas for improvement.
+## 2. Creación de reglas
 
-## Setup Instructions
-1. Clone the repository to your local machine.
-2. Navigate to the project directory.
-3. Install the required dependencies using the following command:
-   ```
-   pip install -r requirements.txt
-   ```
-4. Ensure that the dataset (`emails.csv`) is located in the `data/` directory.
+Se desarrollaron reglas basadas en patrones comunes de spam, implementadas en [`src/SpamIndex.py`](../src/SpamIndex.py) y [`src/rules.py`](../src/rules.py):
 
-## Usage Guidelines
-- To run the spam detection system, execute the `SpamIndex.py` script in the `src/` directory.
-- Use the Jupyter notebook in the `notebooks/` directory for data analysis and exploration.
-- Run the unit tests in the `tests/` directory to verify the functionality of the spam detection rules.
+- **Palabras clave:** Si el contenido contiene palabras como "gratis", "urgente", "win", "prize", "cash", "claim", se suma puntuación de spam.
+- **Enlaces sospechosos:** Si el mensaje contiene enlaces (http, www), se suma puntuación.
+- **Remitente sospechoso:** (No aplicable en este dataset, pero la regla existe para datasets con remitente).
+- **Exceso de signos de exclamación o frases típicas de spam:** Se suma puntuación si se detectan patrones como "!!!" o frases como "100% gratis".
 
-## Contribution
-Contributions to the project are welcome! Please feel free to submit issues or pull requests for improvements or additional features.
+**Ejemplo de regla en código:**
+
+```python
+def contains_keyword(keywords):
+    def condition(email_data):
+        return any(keyword in email_data['contenido'].lower() for keyword in keywords)
+    def action(email_data):
+        return True
+    return Rule("Contains Keyword", condition, action)
+```
+
+## 3. Implementación de la detección de spam
+
+El sistema aplica las reglas a cada mensaje del dataset y determina si es spam según la puntuación acumulada.
+
+```python
+import pandas as pd
+from src.SpamIndex import SpamDetectorReglas, adaptar_spam_csv
+
+df = pd.read_csv('data/spam.csv', encoding='latin-1')
+df = adaptar_spam_csv(df)
+detector = SpamDetectorReglas()
+
+for i, row in df.iterrows():
+    email = row.to_dict()
+    predicho, puntuacion = detector.es_spam(email)
+    print(f"Mensaje {i+1}: Real: {email['es_spam']} | Detectado: {int(predicho)} | Puntuación: {puntuacion}")
+```
+
+Visualización de la distribución:
+
+```python
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.figure(figsize=(8, 5))
+sns.countplot(x='es_spam', data=df)
+plt.title('Distribución de Correos Spam y Legítimos')
+plt.xlabel('¿Es Spam? (1 = Sí, 0 = No)')
+plt.ylabel('Cantidad')
+plt.xticks(ticks=[0, 1], labels=['Legítimo', 'Spam'])
+plt.show()
+```
+
+Nube de palabras de spam:
+
+```python
+from wordcloud import WordCloud
+
+spam_text = ' '.join(df[df['es_spam'] == 1]['contenido'])
+wordcloud = WordCloud(width=800, height=400, background_color='white').generate(spam_text)
+plt.figure(figsize=(10, 5))
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis('off')
+plt.title('Nube de Palabras de Correos Spam')
+plt.show()
+```
+
+## 4. Reflexión y análisis
+
+**Eficacia de las reglas:**
+Las reglas basadas en palabras clave y enlaces detectan la mayoría de los mensajes spam, pero pueden generar falsos positivos si un mensaje legítimo contiene palabras sospechosas.
+
+**Resultados:**
+El sistema detecta correctamente la mayoría de los mensajes spam del dataset spam.csv.
+Se recomienda probar con otros datasets y ajustar las reglas según los resultados.
+
+**Conclusión**
+Este proyecto proporciona una base sólida para comprender y experimentar con mecanismos de detección de spam. La modularidad del sistema permite agregar nuevas reglas o integrar modelos de machine learning en el futuro.

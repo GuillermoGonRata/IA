@@ -1,0 +1,13 @@
+id_producto,nombre,categoria,precio,marca
+1,Batería 12V,Eléctrico,1200,AutoZone
+2,Filtro de aceite,Mantenimiento,250,Valvoline
+3,Pastillas de freno,Frenos,800,Brembo
+4,Aceite sintético,Mantenimiento,600,Mobil
+5,Limpiaparabrisas,Accesorios,300,Bosch
+6,Anticongelante Verde,Mantenimiento,350,Prestone
+7,Cable de bujía,Eléctrico,450,NGK
+8,Kit de afinación,Mantenimiento,980,AutoZone
+9,Faros LED,Accesorios,1200,Philips
+10,Tapetes de goma,Interior,600,Michelin
+11,Espejo retrovisor,Accesorios,400,AutoZone
+12,Correa de distribución,Mantenimiento,1500,Gates

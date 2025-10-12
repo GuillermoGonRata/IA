@@ -5,6 +5,11 @@ from datetime import datetime
 def validar_producto(producto_id, df_productos):
     return producto_id in df_productos['id_producto'].values
 
+def productos_preferidos(id_usuario, df_historial, top_n=3):
+    compras_usuario = df_historial[df_historial['id_usuario'] == id_usuario]
+    conteo = compras_usuario['id_producto'].value_counts()
+    return conteo.head(top_n).index.tolist()
+
 
 def registrar_compra(usuario_id, producto_id, ruta="data/historial.csv"):
     nueva_fila = pd.DataFrame([{

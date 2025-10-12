@@ -4,3 +4,4 @@ id_usuario,id_producto,tipo_interaccion,fecha
 2,1,compra,2025-10-09
 2,4,vista,2025-10-10
 3,5,compra,2025-10-12
+1,1,compra,2025-10-12

@@ -1,17 +1,17 @@
 import re
 
 class Rule:
-    def __init__(self, name, condition, action):
+    def __init__(self, name, condition, action): #Inicializa una nueva regla.
         self.name = name
         self.condition = condition
         self.action = action
 
-    def evaluate(self, email_data):
+    def evaluate(self, email_data): # Evalúa la condición de la regla sobre los datos del correo.
         if self.condition(email_data):
             return self.action(email_data)
         return False
 
-def contains_keywords(keywords):
+def contains_keywords(keywords): #   Crea una regla que detecta si el contenido contiene alguna palabra clave de spam.
     def condition(email_data):
         contenido = email_data['contenido'].lower()
         return any(keyword in contenido for keyword in keywords)
@@ -19,7 +19,7 @@ def contains_keywords(keywords):
         return True
     return Rule("Contiene palabras clave", condition, action)
 
-def has_suspicious_links():
+def has_suspicious_links(): # Crea una regla que detecta enlaces sospechosos en el contenido.
     def condition(email_data):
         # Busca patrones de enlaces http, https o www
         return bool(re.search(r'(http[s]?://|www\.)', email_data['contenido'].lower()))
@@ -27,7 +27,7 @@ def has_suspicious_links():
         return True
     return Rule("Contiene enlaces sospechosos", condition, action)
 
-def has_money_offer():
+def has_money_offer(): # Crea una regla que detecta ofertas de dinero, premios o sorteos en el contenido.
     def condition(email_data):
         contenido = email_data['contenido'].lower()
         # Busca ofertas de dinero, premios o sorteos
@@ -36,7 +36,7 @@ def has_money_offer():
         return True
     return Rule("Ofrece dinero o premios", condition, action)
 
-def has_urgent_language():
+def has_urgent_language(): #  Crea una regla que detecta lenguaje urgente o presión para actuar en el contenido.
     def condition(email_data):
         contenido = email_data['contenido'].lower()
         # Busca lenguaje urgente o presión para actuar
@@ -45,7 +45,7 @@ def has_urgent_language():
         return True
     return Rule("Lenguaje urgente", condition, action)
 
-def has_numeric_shortcode():
+def has_numeric_shortcode(): # Crea una regla que detecta códigos cortos numéricos típicos de SMS premium.
     def condition(email_data):
         # Busca códigos cortos numéricos típicos de SMS premium
         return bool(re.search(r'\b\d{4,6}\b', email_data['contenido']))
@@ -68,6 +68,7 @@ keywords = [
     'subscription', 'ringtone', 'voucher', 'bonus', 'gift', 'promo', 'exclusive', 'discount'
 ]
 
+#lista de reglas a evaluar
 rules = [
     contains_keywords(keywords),
     has_suspicious_links(),

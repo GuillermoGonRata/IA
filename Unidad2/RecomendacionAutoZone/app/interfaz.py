@@ -6,7 +6,7 @@ import pandas as pd
 from datetime import datetime
 
 
-def ejecutar_app():
+def ejecutar_app(): # Función principal para ejecutar la aplicación de recomendación de AutoZone.
     st.title(" Recomendador AutoZone")
 
 
@@ -17,7 +17,7 @@ def ejecutar_app():
     matriz, _ = vectorizar_productos(df_productos)
 
     usuario = st.selectbox("Selecciona tu usuario", df_usuarios['nombre'])
-    usuario_id = df_usuarios[df_usuarios['nombre'] == usuario]['id_usuario'].values[0]
+    usuario_id = df_usuarios[df_usuarios['nombre'] == usuario]['id_usuario'].values[0] # Obtiene el ID del usuario seleccionado
 
     st.subheader("Recomendaciones basadas en tu historial:")
 
@@ -30,32 +30,32 @@ def ejecutar_app():
     #  Captura errores en recomendar()
     recomendaciones_totales = pd.DataFrame()
     for pid in preferidos:
-        try:
+        try:# Genera recomendaciones para cada producto preferido
             recomendados = recomendar(pid, matriz, df_productos)
             recomendaciones_totales = pd.concat([recomendaciones_totales, recomendados], ignore_index=True)
-        except Exception as e:
+        except Exception as e: # Maneja errores en la recomendación
             st.error(f" Error al recomendar para producto {pid}: {e}")
 
-    # Elimina duplicados y muestra solo una vez la lista de recomendaciones
+    # Elimina duplicados y muestra una pequeña lista de recomendaciones 
     if not recomendaciones_totales.empty:
-        recomendaciones_totales = recomendaciones_totales.drop_duplicates(subset=['id_producto'])
-        for _, fila in recomendaciones_totales.iterrows():
-            st.write(f"{fila['nombre']} ({fila['categoria']}, {fila['marca']}) - ${fila['precio']}")
+        recomendaciones_totales = recomendaciones_totales.drop_duplicates(subset=['id_producto']) 
+        for _, fila in recomendaciones_totales.iterrows(): # Muestra cada recomendación
+            st.write(f"{fila['nombre']} ({fila['categoria']}, {fila['marca']}) - ${fila['precio']}") # Muestra nombre, categoría, marca y precio
     else:
         st.info("No hay recomendaciones disponibles.")
         
 
-    st.subheader(" Buscar y comprar productos:")
+    st.subheader(" Buscar y comprar productos:")# Permite al usuario buscar y comprar productos. 
     producto_seleccionado = st.selectbox("Selecciona un producto para comprar", df_productos['nombre'])
-    producto_id = df_productos[df_productos['nombre'] == producto_seleccionado]['id_producto'].values[0]
+    producto_id = df_productos[df_productos['nombre'] == producto_seleccionado]['id_producto'].values[0] 
 
-    if st.button("Confirmar compra"):
+    if st.button("Confirmar compra"): # Maneja la compra del producto seleccionado.
         nueva_fila = pd.DataFrame([{
             "id_usuario": usuario_id,
             "id_producto": producto_id,
             "tipo_interaccion": "compra",
             "fecha": datetime.today().strftime('%Y-%m-%d')
-        }])
+        }]) # Agrega la compra al historial y guarda en CSV
         df_historial = pd.concat([df_historial, nueva_fila], ignore_index=True)
         df_historial.to_csv("data/historial.csv", index=False)
         st.success(" Compra registrada exitosamente.")

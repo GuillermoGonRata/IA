@@ -1,7 +1,7 @@
 # Sistema de Recomendacion de productos Autozone
 
 ## Hecho por:
-Gonzalez cardenas Guillermo #
+Gonzalez cardenas Guillermo #22170672 <br>
 Urias Lugo Guillermo #22170838
 
 ## Archivos
@@ -20,6 +20,7 @@ Este módulo contiene funciones esenciales para la preparación de datos en el s
 ### Historial.csv, Usuarios.csv y productos.csv
 En estos archivos se guardan los distintos datos que se manejan en la aplicacion.
 
+#### Para mas detalle los codigos estan comentados 
 
 ## Como ejecutar:
 
@@ -35,3 +36,7 @@ py -m streamlit run Main.py o py -m streamlit run interfaz.py
 ## Que hacer
 Al ejecutar el programa se ejecutara en el navegador la interfazen la que se podra seleccionar un usuario y podras ver una pequeña lista de recomendaciones de cada usuario. 
 Puedes registrar una compra. Para visualizar el cambio en las recomendaciones despues de la compra tienes que actualizar la pagina para ver los cambios en los productos recomendados, esto ultimo es mas facil de visualizar con un usuario nuevo, el cual puedes crear agregando datos en el archivo Usuarios.csv
+
+#### Pequeña visualizacion de la interfaz 
+<img width="937" height="737" alt="image" src="https://github.com/user-attachments/assets/ba48fe7f-bf55-45bc-a5be-a951c935cd7f" />
+

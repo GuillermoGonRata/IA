@@ -1,7 +1,7 @@
 # Detector de Spam
 
 ## Hecho por>
-Gonzalez Cardenaz Guillermo #22170672
+Gonzalez Cardenaz Guillermo #22170672 <br>
 Urias Lugo Guillermo #22170838
 
 ## Archivos

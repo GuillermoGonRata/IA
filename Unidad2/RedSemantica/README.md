@@ -1,7 +1,7 @@
 # Red Semantica
 
 ## Hecho por:
-Gonzalez cardenas Guillermo #22170672
+Gonzalez cardenas Guillermo #22170672 <br>
 Urias Lugo Guillermo #22170838
 
 
@@ -26,3 +26,4 @@ y cuando por fin pudimos crear una red no nos gustó como se mostraba la red.
     
 ### Notas
 Como pequeña nota nos gustaria agregar que no le pudimos agregar mas relaciones al nodo MecanicosProfesionales ya que para poder visualizarlo necesitabas realizar un registro de datos que la verdad no estamos dispuestos a realizar ese registro.
+

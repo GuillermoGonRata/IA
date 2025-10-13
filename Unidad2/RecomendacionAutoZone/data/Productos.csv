@@ -11,3 +11,21 @@ id_producto,nombre,categoria,precio,marca
 10,Tapetes de goma,Interior,600,Michelin
 11,Espejo retrovisor,Accesorios,400,AutoZone
 12,Correa de distribución,Mantenimiento,1500,Gates
+13,Filtro de aire,Mantenimiento,320,Fram
+14,Filtro de gasolina,Mantenimiento,290,Mann
+15,Aceite mineral,Mantenimiento,450,Castrol
+16,Limpiador de inyectores,Mantenimiento,220,STP
+17,Sensor de oxígeno,Eléctrico,950,Bosch
+18,Amortiguador delantero,Suspensión,1700,Monroe
+19,Amortiguador trasero,Suspensión,1600,Monroe
+20,Disco de freno,Frenos,1100,Brembo
+21,Plumas limpiaparabrisas,Accesorios,280,Michelin
+22,Polish para carrocería,Accesorios,180,Turtle Wax
+23,Tapón de radiador,Mantenimiento,120,Prestone
+24,Termostato,Mantenimiento,350,Gates
+25,Bujía de iridio,Mantenimiento,180,NGK
+26,Extintor de auto,Accesorios,350,AutoZone
+27,Compresor de aire portátil,Accesorios,950,Michelin
+28,Kit de emergencia,Accesorios,700,AutoZone
+29,Alarma para auto,Eléctrico,2100,Viper
+30,Kit de xenón,Eléctrico,1300,Philips

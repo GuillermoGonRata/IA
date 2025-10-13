@@ -7,7 +7,13 @@ def cargar_datos(ruta):
 
 
 def vectorizar_productos(df):
-    corpus = df['categoria'] + " " + df['marca']
+    # Incluye nombre, categoría, marca y descripción (si existe)
+    if 'descripcion' in df.columns:
+        corpus = df['nombre'] + " " + df['categoria'] + " " + df['marca'] + " " + df['descripcion']
+    else:
+        corpus = df['nombre'] + " " + df['categoria'] + " " + df['marca']
+    # Normaliza el texto
+    corpus = corpus.str.lower().str.replace(r'[^a-z0-9\s]', '', regex=True)
     vectorizador = TfidfVectorizer()
     matriz = vectorizador.fit_transform(corpus)
     return matriz, vectorizador

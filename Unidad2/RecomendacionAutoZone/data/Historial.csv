@@ -30,3 +30,8 @@ id_usuario,id_producto,tipo_interaccion,fecha
 2,8,compra,2025-10-12
 2,7,compra,2025-10-12
 4,1,compra,2025-10-12
+5,30,compra,2025-10-29
+1,23,compra,2025-10-29
+5,8,compra,2025-10-29
+5,5,compra,2025-10-29
+5,6,compra,2025-10-29

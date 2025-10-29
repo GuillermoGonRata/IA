@@ -9,8 +9,6 @@ from datetime import datetime
 def ejecutar_app(): # Función principal para ejecutar la aplicación de recomendación de AutoZone.
     st.title(" Recomendador AutoZone")
 
-
-
     df_productos = cargar_datos("data/productos.csv")
     df_usuarios = cargar_datos("data/usuarios.csv")
     df_historial = cargar_datos("data/historial.csv")
@@ -46,8 +44,8 @@ def ejecutar_app(): # Función principal para ejecutar la aplicación de recomen
         
 
     st.subheader(" Buscar y comprar productos:")# Permite al usuario buscar y comprar productos. 
-    producto_seleccionado = st.selectbox("Selecciona un producto para comprar", df_productos['nombre'])
-    producto_id = df_productos[df_productos['nombre'] == producto_seleccionado]['id_producto'].values[0] 
+    producto_seleccionado = st.selectbox("Selecciona un producto para comprar", df_productos['precio'].astype(str) + " - " + df_productos['nombre'])
+    producto_id = df_productos[df_productos['precio'].astype(str) + " - " + df_productos['nombre'] == producto_seleccionado]['id_producto'].values[0] 
 
     if st.button("Confirmar compra"): # Maneja la compra del producto seleccionado.
         nueva_fila = pd.DataFrame([{

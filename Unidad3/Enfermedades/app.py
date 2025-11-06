@@ -105,7 +105,7 @@ def main():
     preguntas = [
         {
             "categoria": "Datos Demograficos",
-            "pregunta": "Ingrese su edad en anos:",
+            "pregunta": "Ingrese su edad en años:",
             "tipo": "numero",
             "key": "edad"
         },

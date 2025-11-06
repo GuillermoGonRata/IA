@@ -1,0 +1,6 @@
+Instalar dependencias:
+->  python -m pip install streamlit pandas
+
+el cambio de directorio se tiene que hacer a donde se tiene la carpeta del programa.
+->  cd c:\Users\Guill\Desktop\Enfermedades\IA\Unidad3\Enfermedades
+->  python -m streamlit run app.py

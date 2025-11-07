@@ -4,7 +4,7 @@
 El Sistema Experto para Diagnóstico Respiratorio es una aplicación web desarrollada en Python que utiliza técnicas de inteligencia artificial para ayudar en el diagnóstico de enfermedades respiratorias comunes. La aplicación guía al usuario a través de un cuestionario interactivo y proporciona diagnósticos basados en reglas médicas predefinidas.
 
 ## Estructura del Proyecto:
-sistema-experto-respiratorio/
+sistema-experto-respiratorio/ <br>
 ├─ app.py                    <- Aplicación principal con interfaz Streamlit. <br>
 ├─ motor_inferencia.py       <- Motor de inferencia y lógica de diagnóstico. <br>
 ├─ reglas_enfermedades.py    <- Base de conocimiento con reglas médicas. <br>

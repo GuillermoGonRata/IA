@@ -64,16 +64,7 @@ ENFERMEDADES = {
         "tabaquismo": "NO",
         "contagiosidad": "ALTA",
         "duracion": "VARIOS_MESES",
-        },
-    "H1N1": {
-        "sintomas_obligatorios": ["TOS", "FIEBRE"],
-        "sintomas_comunes": ["DISNEA_LEVE", "FATIGA", "CONGESTION_NASAL", "DOLOR_GARGANTA", "CEFALEA", "MIALGIAS"],
-        "examenes": ["PCR_POSITIVA"],
-        "factores_riesgo": ["MAYOR_65", "EMBARAZO"],
-        "tabaquismo": "NO",
-        "contagiosidad": "ALTA",
-        "duracion": "5-7"
-    }
+        }
     
    
 }

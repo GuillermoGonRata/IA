@@ -90,6 +90,38 @@ Arreglo de preguntas: Luego tenemos un arreglo con las preguntas disponibles y s
 <img width="1217" height="324" alt="image" src="https://github.com/user-attachments/assets/163123fb-5c2c-4e1e-a0ea-098f9e428865" />
 
 ---------------------------------------------------------------------------------------------------------------------
+seccion de la interfaz que se encargan de mostrar la pregunta actual y otra que muestra el historial de respuestas.
+<img width="550" height="283" alt="image" src="https://github.com/user-attachments/assets/1bc965e8-7bcd-42be-8a0b-10199bdba3bd" />
+
+----------------------------------------------------------------------------------------------------------------------
+
+Metodo verificar_diagnostico temprano:
+Este metodo se encarga de verificar si ya puede emitir un diagnostico de acuerdo a la certeza en base a las respuestas del usuario (le colocamos un minimo de 90 pero puede ser cambiado), tambien necesito un minimo de respuestas al que de momento le colocamos 3 pero podemos modificarlo de igual manera si es muy precipitado. Este metodo lo que hace es llamar a diversos metodos como el diagnosticar que esta en la clase motor:inferencia para realizar esas comparaciones y asegurarse de que este por encima de la certeza que ajustemos como minima para llegar a una conclusion 
+
+<img width="589" height="487" alt="image" src="https://github.com/user-attachments/assets/3c3b1d6c-4bf6-403f-9bfc-2473004a61bb" />
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Esta seccion de codigo se encarga de manejar la pregunta actual y los botones de la interfaz. Se divide en la parte en la que seleccionas tu edad y la parte de preguntas de si o no.
+Aqui cada que se ingresa una respusta se avanza automaticamente a la siguiente pregunta o se muestra el diagnostico si es que se determina que ya se puede llegar a uno, adicionalmente se van guardando las respuestas para que el usuario pueda verlas si gusta.
+
+
+<img width="882" height="556" alt="image" src="https://github.com/user-attachments/assets/9430a1af-8d4d-4c29-b8c6-156eb7da5cb1" />
+
+------------------------------------------------------------------------------------------------------------------------
+Esta seccion de codigo se encarga de mostrar un mensaje de cierre y un resumen de las preguntas con las respuestas del usuario y presenta dos botones,
+uno que realiza el diagnostico final y otro que permite cambiar las respuestas (Aunque este ultimo no se que tan practico sea ya que se supone que un usuario debe hablar con la verdad cuando habla de su salud pero ya es tarde y me da miedo de cambiar el codigo y que ya no arranque :p).
+
+
+<img width="989" height="612" alt="image" src="https://github.com/user-attachments/assets/60882796-3b8f-402d-9df6-5a27202f49f3" />
+
+-------------------------------------------------------------------------------------------------------------------------
+Y esta seccion se encarga de mostrar el diagnostico al que llego y porque llego a este (Mostrando los sintomas) 
+
+<img width="839" height="687" alt="image" src="https://github.com/user-attachments/assets/010b2637-0ce3-4c4a-a6b9-d1276a79b23a" />
+
+---------------------------------------------------------------------------------------------------------------------------
+
 
 ## Enfermedades
 Enfermedad	    Síntomas Clave	                Contagiosidad	Duración

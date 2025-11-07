@@ -280,36 +280,47 @@ def main():
             st.rerun()
 
 def mostrar_resultados(resultados):
-        """Muestra los resultados del diagnostico"""
-        
-        if not resultados:
-            st.warning("No se encontraron enfermedades que coincidan con los sintomas ingresados.")
-            return
-        
-        for i, resultado in enumerate(resultados[:1]):  # Top 5 resultados
-            with st.container():
-                col1, col2 = st.columns([3, 1])
-                
-                with col1:
-                    st.write(f"### {i+1}. {resultado['enfermedad']}")
-                    st.write(f"**Duracion tipica:** {resultado['duracion']}")
-                    st.write(f"**Contagiosidad:** {resultado['contagiosidad']}")
-                
-                with col2:
-                    st.write(f"### {resultado['certeza']:.1f}%")
-                    st.progress(resultado['certeza'] / 100)
-                
-                with st.expander("Ver explicacion detallada"):
-                    for linea in resultado['explicacion']:
-                        st.write(linea)
-                
-                st.write("---")
-        
-        # Recomendacion final
-        if resultados[0]["certeza"] > 70:
-            st.success(f"Diagnostico mas probable: {resultados[0]['enfermedad']}")
-            st.info("Recomendacion: Consulte con un especialista para confirmar el diagnostico y realizar pruebas adicionales.")
-        else:
-            st.warning("No se encontro un diagnostico claro. Consulte con un medico para una evaluacion detallada.")
+    """Muestra los resultados del diagnostico incluyendo recomendaciones especificas"""
+    
+    if not resultados:
+        st.warning("No se encontraron enfermedades que coincidan con los sintomas ingresados.")
+        return
+    
+    for i, resultado in enumerate(resultados[:2]):  # Top 2 resultados
+        with st.container():
+            col1, col2 = st.columns([2, 1])
+            
+            with col1:
+                st.write(f"### {i+1}. {resultado['enfermedad']}")
+                st.write(f"**Duracion tipica:** {resultado['duracion']} dias")
+                st.write(f"**Contagiosidad:** {resultado['contagiosidad']}")
+            
+            with col2:
+                st.write(f"### {resultado['certeza']:.1f}%")
+                st.progress(resultado['certeza'] / 100)
+            
+            # Mostrar explicacion
+            with st.expander("Ver explicacion del diagnostico"):
+                for linea in resultado['explicacion']:
+                    st.write(linea)
+            
+            # Mostrar recomendaciones especificas para esta enfermedad
+            st.subheader("Recomendaciones Especificas")
+            recomendaciones = resultado.get('recomendaciones', [])
+            if recomendaciones:
+                for recomendacion in recomendaciones:
+                    st.info(recomendacion)
+            else:
+                st.warning("No hay recomendaciones especificas disponibles para esta enfermedad.")
+            
+            st.write("---")
+    
+    # Recomendacion final general
+    if resultados[0]["certeza"] > 70:
+        st.success(f"Diagnostico mas probable: {resultados[0]['enfermedad']}")
+        st.info("RECOMENDACION GENERAL: Consulte con un especialista para confirmar el diagnostico y realizar pruebas adicionales. No se automedique.")
+    else:
+        st.warning("No se encontro un diagnostico claro. Consulte con un medico para una evaluacion detallada.")
+
 if __name__ == "__main__":
     main()

@@ -74,6 +74,7 @@ class MotorInferencia:
                     "explicacion": ["Coincidencia completa con síntomas obligatorios"],
                     "duracion": reglas["duracion"],
                     "contagiosidad": reglas["contagiosidad"],
+                    "recomendaciones": reglas.get("recomendaciones", []),
                     "es_coincidencia_completa": True
                 }]
         
@@ -88,6 +89,7 @@ class MotorInferencia:
                     "explicacion": explicacion,
                     "duracion": reglas["duracion"],
                     "contagiosidad": reglas["contagiosidad"],
+                    "recomendaciones": reglas.get("recomendaciones", []),
                     "es_coincidencia_completa": False
                 })
         

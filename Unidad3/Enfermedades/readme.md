@@ -22,7 +22,6 @@ Bronquitis      Aguda	Tos, Expectoración	    BAJA	        7-10 días
 Tuberculosis	Tos prolongada, Fiebre,         ALTA	        VARIOS_MESES
                 Sudoración	
 
-
 ## Prerrequisitos:
     Python 3.8 o superior
     pip (gestor de paquetes de Python)

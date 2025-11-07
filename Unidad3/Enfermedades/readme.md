@@ -75,6 +75,7 @@ Cada enfermedad está definida por el siguiente reglamento:
         "tabaquismo": "SI/NO",          # Relación con tabaquismo
         "contagiosidad": "NIVEL",       # Grado de contagio
         "duracion": "RANGO"             # Duración típica o si es cronica
+        "recomendaciones": []           # Recomendaciones para el usuario
     }
 
 ### Agregar Nuevas Enfermedades
@@ -87,6 +88,11 @@ Para agregar una nueva enfermedad, edite el archivo reglas_enfermedades.py:
         "tabaquismo": "NO",
         "contagiosidad": "MODERADA",
         "duracion": "7-10/cronica"
+        "recomendaciones": [
+            "Recomendacion 1",
+            "Recomendacion 2",
+            "Recomendacion 3",
+        ] 
     }
 
 ### Algoritmo de Inferencia

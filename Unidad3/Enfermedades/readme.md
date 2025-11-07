@@ -224,10 +224,12 @@ primero muestra las enfermedades que mas coinciden pero no las da como un diagno
 
 <img width="656" height="603" alt="image" src="https://github.com/user-attachments/assets/3a2ddfdb-6f46-40c4-ab17-251473af3be6" />
 
+------------------------------------------------------------------------------------------------------------------------------
 
 <img width="702" height="800" alt="image" src="https://github.com/user-attachments/assets/da15715f-1380-43b1-a467-ae08ab9aee50" />
 
-
+ -----------------------------------------------------------------------------------------------------------------------------
+ 
 <img width="755" height="210" alt="image" src="https://github.com/user-attachments/assets/00839839-7f9d-4b25-a1c0-fff189d6942f" />
 
 ------------------------------------------------------------------------------------------------------------------------------

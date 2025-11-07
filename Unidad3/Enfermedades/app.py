@@ -157,44 +157,61 @@ def main():
                     else:
                         st.write(f"{pregunta['pregunta']} -> {respuesta}")
 
-    # Si hay una pregunta activa, mostrarla
-        # Si hay una pregunta activa, mostrarla
-    if pregunta_actual is not None:
-        # Mostrar el texto de la pregunta siempre
-        st.markdown(f"**{pregunta_actual.get('pregunta')}**")
+    def verificar_diagnostico_temprano(min_certeza=70):  # Ajustar este valor según necesites
+        """Verifica si ya tenemos suficiente información para un diagnóstico temprano."""
+        if len(st.session_state.respuestas) < 3:
+            return False
+        motor = MotorInferencia()
+        edad_numero = st.session_state.respuestas.get('edad', 30)
+        grupo_edad = determinar_grupo_edad(edad_numero)
+        motor.sintomas_usuario = {k: v for k, v in st.session_state.respuestas.items() 
+                               if k not in ['edad', 'tabaquismo']}
+        motor.factores_riesgo = {
+            "edad": grupo_edad,
+            "tabaquismo": st.session_state.respuestas.get('tabaquismo', 'NO')
+        }
+        resultados = motor.diagnosticar()
+        if resultados and (
+            resultados[0].get('es_coincidencia_completa') or 
+            resultados[0].get('certeza', 0) >= min_certeza
+        ):
+            st.session_state.resultados = resultados
+            st.session_state.diagnostico_realizado = True
+            return True
+        return False
 
-        # Si es entrada numérica
+        # Un único bloque para mostrar la pregunta actual y manejar botones
+    if pregunta_actual is not None:
+        st.markdown(f"**{pregunta_actual.get('pregunta')}**")
         if pregunta_actual.get("tipo") == "numero":
-            edad = st.number_input(
-                label=pregunta_actual.get('pregunta'),
-                min_value=0, max_value=120, value=30, step=1,
-                key=f"num_{pregunta_actual['key']}"
-            )
-            col1, col2 = st.columns([1, 1])
+            valor = st.number_input("", min_value=0, max_value=120, value=30, step=1, key=f"num_{pregunta_actual['key']}")
+            col1, col2 = st.columns([1,1])
             with col1:
-                if st.button("Continuar", use_container_width=True, key=f"btn_continuar_{pregunta_actual['key']}"):
-                    st.session_state.respuestas[pregunta_actual['key']] = edad
-                    st.session_state.step = siguiente_indice(st.session_state.step, preguntas, st.session_state.respuestas)
+                if st.button("Continuar", key=f"cont_{pregunta_actual['key']}"):
+                    st.session_state.respuestas[pregunta_actual['key']] = valor
+                    if not verificar_diagnostico_temprano():
+                        st.session_state.step = siguiente_indice(st.session_state.step, preguntas, st.session_state.respuestas)
                     st.rerun()
             with col2:
-                if st.button("Atras", use_container_width=True, key=f"btn_atras_{pregunta_actual['key']}") and st.session_state.step > 0:
+                if st.button("Atras", key=f"back_{pregunta_actual['key']}") and st.session_state.step > 0:
                     st.session_state.step = anterior_indice(st.session_state.step, preguntas, st.session_state.respuestas)
                     st.rerun()
         else:
-            # Mostrar opciones SI/NO para preguntas binarias (y el texto ya mostrado arriba)
-            col1, col2, col3 = st.columns([1, 1, 1])
+            col1, col2, col3 = st.columns([1,1,1])
             with col1:
-                if st.button("SI", use_container_width=True, key=f"si_{pregunta_actual['key']}"):
+                if st.button("SI", key=f"si_{pregunta_actual['key']}"):
                     st.session_state.respuestas[pregunta_actual['key']] = "SI"
-                    st.session_state.step = siguiente_indice(st.session_state.step, preguntas, st.session_state.respuestas)
+                    if not verificar_diagnostico_temprano():
+                        st.session_state.step = siguiente_indice(st.session_state.step, preguntas, st.session_state.respuestas)
                     st.rerun()
             with col2:
-                if st.button("NO", use_container_width=True, key=f"no_{pregunta_actual['key']}"):
+                if st.button("NO", key=f"no_{pregunta_actual['key']}"):
                     st.session_state.respuestas[pregunta_actual['key']] = "NO"
-                    st.session_state.step = siguiente_indice(st.session_state.step, preguntas, st.session_state.respuestas)
+                    if not verificar_diagnostico_temprano():
+                        st.session_state.step = siguiente_indice(st.session_state.step, preguntas, st.session_state.respuestas)
                     st.rerun()
             with col3:
-                if st.button("Atras", use_container_width=True, key=f"atras_{pregunta_actual['key']}") and st.session_state.step > 0:
+                if st.button("Atras", key=f"atras_{pregunta_actual['key']}") and st.session_state.step > 0:
                     st.session_state.step = anterior_indice(st.session_state.step, preguntas, st.session_state.respuestas)
                     st.rerun()
 
@@ -242,8 +259,9 @@ def main():
         st.write("---")
         st.write("## Resultados del Diagnostico")
         
-        motor = MotorInferencia()
-        motor.mostrar_resultados(st.session_state.resultados)
+        #motor = MotorInferencia()
+        #motor.mostrar_resultados(st.session_state.resultados)
+        mostrar_resultados(st.session_state.resultados)
         
         # Boton para reiniciar
         st.write("---")
@@ -253,5 +271,37 @@ def main():
                     del st.session_state[key]
             st.rerun()
 
+def mostrar_resultados(resultados):
+        """Muestra los resultados del diagnostico"""
+        
+        if not resultados:
+            st.warning("No se encontraron enfermedades que coincidan con los sintomas ingresados.")
+            return
+        
+        for i, resultado in enumerate(resultados[:1]):  # Top 5 resultados
+            with st.container():
+                col1, col2 = st.columns([3, 1])
+                
+                with col1:
+                    st.write(f"### {i+1}. {resultado['enfermedad']}")
+                    st.write(f"**Duracion tipica:** {resultado['duracion']}")
+                    st.write(f"**Contagiosidad:** {resultado['contagiosidad']}")
+                
+                with col2:
+                    st.write(f"### {resultado['certeza']:.1f}%")
+                    st.progress(resultado['certeza'] / 100)
+                
+                with st.expander("Ver explicacion detallada"):
+                    for linea in resultado['explicacion']:
+                        st.write(linea)
+                
+                st.write("---")
+        
+        # Recomendacion final
+        if resultados[0]["certeza"] > 70:
+            st.success(f"Diagnostico mas probable: {resultados[0]['enfermedad']}")
+            st.info("Recomendacion: Consulte con un especialista para confirmar el diagnostico y realizar pruebas adicionales.")
+        else:
+            st.warning("No se encontro un diagnostico claro. Consulte con un medico para una evaluacion detallada.")
 if __name__ == "__main__":
     main()

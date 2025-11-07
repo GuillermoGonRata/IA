@@ -15,6 +15,11 @@ sistema-experto-respiratorio/ <br>
 Esta clase funge como base de conocimientos y contiene los hechos y reglas de las enfermedades que serán tomados por el motor de inferencia para llegar a un diagnostico certero.
 <img width="921" height="727" alt="image" src="https://github.com/user-attachments/assets/abeaa050-0211-4819-8368-5a2243d860ae" />
 
+#### Actualizacion de esta clase:
+Le agregamos la recomendacion a cada enfermedad que teniamos para que salga una mas acertada de acuerdo a la enfermedad
+
+<img width="1063" height="722" alt="image" src="https://github.com/user-attachments/assets/bc571e1e-2b72-4b7e-bbdf-3c455c64231d" />
+
 ---------------------------------------------------------------------------------------------------------------
 
 

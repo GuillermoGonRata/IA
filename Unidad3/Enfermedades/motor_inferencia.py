@@ -29,14 +29,39 @@ class MotorInferencia:
         return True
 
     def calcular_coincidencia(self, enfermedad, reglas):
-        """Calcula una certeza simple (%) basada en proporción de síntomas obligatorios presentes."""
+        """
+        Calcula certeza basada en síntomas obligatorios y comunes presentes.
+        """
         obligatorios = reglas.get("sintomas_obligatorios", [])
+        comunes = reglas.get("sintomas_comunes", [])
+        
+        # Verificar síntomas obligatorios
         if not obligatorios:
             return 0.0, []
-        presentes = sum(1 for s in obligatorios if self.sintomas_usuario.get(s) == "SI")
-        certeza = (presentes / len(obligatorios)) * 100
-        explicacion = [f"{presentes}/{len(obligatorios)} síntomas obligatorios presentes"]
-        return certeza, explicacion
+            
+        obligatorios_presentes = sum(1 for s in obligatorios 
+                                   if self.sintomas_usuario.get(s) == "SI")
+        
+        # Si no están todos los obligatorios, certeza baja
+        if obligatorios_presentes < len(obligatorios):
+            certeza = (obligatorios_presentes / len(obligatorios)) * 50  # max 50%
+            return certeza, [f"{obligatorios_presentes}/{len(obligatorios)} síntomas obligatorios"]
+        
+        # Verificar síntomas comunes
+        comunes_presentes = sum(1 for s in comunes 
+                              if self.sintomas_usuario.get(s) == "SI")
+        
+        # Calcular certeza total
+        certeza_obligatorios = 70  # Base por tener todos los obligatorios
+        certeza_comunes = 30 * (comunes_presentes / len(comunes)) if comunes else 0
+        certeza_total = certeza_obligatorios + certeza_comunes
+        
+        explicacion = [
+            f"Síntomas obligatorios: {obligatorios_presentes}/{len(obligatorios)}",
+            f"Síntomas comunes: {comunes_presentes}/{len(comunes)}"
+        ]
+        
+        return certeza_total, explicacion
     
     def diagnosticar(self):
         """Realiza el diagnostico basado en las reglas"""

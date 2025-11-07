@@ -9,7 +9,6 @@ ENFERMEDADES = {
         "tabaquismo": "NO",
         "contagiosidad": "ALTA",
         "duracion": "7-14",
-        "certeza_base": 0.9
     },
     
     "INFLUENZA": {
@@ -20,7 +19,6 @@ ENFERMEDADES = {
         "tabaquismo": "NO",
         "contagiosidad": "ALTA",
         "duracion": "5-7",
-        "certeza_base": 0.85
     },
     "ASMA": {
         "sintomas_obligatorios": ["DISNEA", "SIBILANCIAS"],
@@ -30,7 +28,6 @@ ENFERMEDADES = {
         "tabaquismo": "NO",
         "contagiosidad": "NO_APLICA",
         "duracion": "CRONICA",
-        "certeza_base": 0.8
         },
     "NEUMONIA": {
         "sintomas_obligatorios": ["FIEBRE", "TOS", "DISNEA"],
@@ -40,7 +37,6 @@ ENFERMEDADES = {
         "tabaquismo": "NO",
         "contagiosidad": "MODERADA",
         "duracion": "10-14",
-        "certeza_base": 0.88
     },
     "RESFRIADO_COMUN": {
         "sintomas_obligatorios": ["CONGESTION_NASAL", "DOLOR_GARGANTA"],
@@ -50,7 +46,6 @@ ENFERMEDADES = {
         "tabaquismo": "NO",
         "contagiosidad": "MODERADA",
         "duracion": "3-7",
-        "certeza_base": 0.75
     },
     "BRONQUITIS_AGUDA": {
         "sintomas_obligatorios": ["TOS", "EXPECTORACION"],
@@ -60,7 +55,6 @@ ENFERMEDADES = {
         "tabaquismo": "SI",
         "contagiosidad": "BAJA",
         "duracion": "7-10",
-        "certeza_base": 0.78
     },
     "TUBERCULOSIS": {
         "sintomas_obligatorios": ["TOS_PROLONGADA", "FIEBRE", "SUDORACION_NOCTURNA"],
@@ -70,8 +64,7 @@ ENFERMEDADES = {
         "tabaquismo": "NO",
         "contagiosidad": "ALTA",
         "duracion": "VARIOS_MESES",
-        "certeza_base": 0.9
-    },
+        },
     "H1N1": {
         "sintomas_obligatorios": ["TOS", "FIEBRE"],
         "sintomas_comunes": ["DISNEA_LEVE", "FATIGA", "CONGESTION_NASAL", "DOLOR_GARGANTA", "CEFALEA", "MIALGIAS"],
@@ -79,8 +72,7 @@ ENFERMEDADES = {
         "factores_riesgo": ["MAYOR_65", "EMBARAZO"],
         "tabaquismo": "NO",
         "contagiosidad": "ALTA",
-        "duracion": "5-7",
-        "certeza_base": 0.86
+        "duracion": "5-7"
     }
     
    

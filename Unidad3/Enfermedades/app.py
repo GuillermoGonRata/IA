@@ -157,27 +157,35 @@ def main():
                     else:
                         st.write(f"{pregunta['pregunta']} -> {respuesta}")
 
-    def verificar_diagnostico_temprano(min_certeza=70):  # Ajustar este valor según necesites
-        """Verifica si ya tenemos suficiente información para un diagnóstico temprano."""
-        if len(st.session_state.respuestas) < 3:
+    def verificar_diagnostico_temprano(min_certeza=90):
+        # Mínimo de respuestas necesarias (3 síntomas)
+        sintomas_respondidos = {k: v for k, v in st.session_state.respuestas.items() 
+                              if k not in ['edad', 'tabaquismo']}
+        if len(sintomas_respondidos) < 3:
             return False
+
         motor = MotorInferencia()
         edad_numero = st.session_state.respuestas.get('edad', 30)
         grupo_edad = determinar_grupo_edad(edad_numero)
-        motor.sintomas_usuario = {k: v for k, v in st.session_state.respuestas.items() 
-                               if k not in ['edad', 'tabaquismo']}
+        motor.sintomas_usuario = sintomas_respondidos
         motor.factores_riesgo = {
             "edad": grupo_edad,
             "tabaquismo": st.session_state.respuestas.get('tabaquismo', 'NO')
         }
+        
         resultados = motor.diagnosticar()
-        if resultados and (
-            resultados[0].get('es_coincidencia_completa') or 
-            resultados[0].get('certeza', 0) >= min_certeza
-        ):
+        if not resultados:
+            return False
+
+        resultado_principal = resultados[0]
+        
+        # Verificar si tenemos diagnóstico temprano
+        if (resultado_principal.get('es_coincidencia_completa') or 
+            resultado_principal.get('certeza', 0) >= min_certeza):
             st.session_state.resultados = resultados
             st.session_state.diagnostico_realizado = True
             return True
+            
         return False
 
         # Un único bloque para mostrar la pregunta actual y manejar botones

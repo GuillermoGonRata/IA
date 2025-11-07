@@ -1,7 +1,13 @@
 # Sistema Experto para Diagnóstico Respiratorio
 
+
+
 ## Descripción General
 El Sistema Experto para Diagnóstico Respiratorio es una aplicación web desarrollada en Python que utiliza técnicas de inteligencia artificial para ayudar en el diagnóstico de enfermedades respiratorias comunes. La aplicación guía al usuario a través de un cuestionario interactivo y proporciona diagnósticos basados en reglas médicas predefinidas.
+
+## Hecho por:
+Gonzalez Cardenas Guillermo #22170672 <br>
+Urias Lugo Guillermo #22170838 <br>
 
 ## Estructura del Proyecto:
 sistema-experto-respiratorio/ <br>
@@ -184,6 +190,48 @@ Finalmente el programa arrojara como respuestas los siguientes puntos como un di
 - Explicación detallada del razonamiento
 - Recomendaciones médicas
 El programa dara un diagnostico certero cuando tenga un 90% de certeza en una enfermedad, si el programa no consigue ese 90%, tendra que precionar el boton de "Realizar diagnostico", para que le de un porcentaje de certeza y la posible enfermedad que tenga, junto con la explicacion detallada
+
+## Pruebas de ejecucion
+Imagen de la interfaz al momento de ejecutar el programa
+
+<img width="1031" height="498" alt="image" src="https://github.com/user-attachments/assets/5f56097c-72a3-419b-908f-5fd8f8518e9c" />
+
+--------------------------------------------------------------------------------------------------------------------------
+
+Imagen de la interfaz despues de responder cierta cantidad de preguntas
+
+<img width="801" height="546" alt="image" src="https://github.com/user-attachments/assets/b993acdf-753f-4b35-add3-124aaff30a71" />
+
+---------------------------------------------------------------------------------------------------------------------------
+
+Imagen de diagnostico despues de que el sistema experto haya determinado que puede realizar uno en base a la certeza
+
+<img width="831" height="887" alt="image" src="https://github.com/user-attachments/assets/37471f59-0860-45bd-bb93-afe70ea7aeee" />
+
+<img width="795" height="709" alt="image" src="https://github.com/user-attachments/assets/083af904-d5d4-4125-977a-93b15203d776" />
+
+
+Nota: dejamos que se mostraran las dos enfermedades mas posibles ya que consideramos que el sistema experto debe ser una herramienta de apoyo mas que una respuesta final. mas que nada para asi evitarnos problemas legales en caso de querer darle seguimiento a esta herramienta
+----------------------------------------------------------------------------------------------------------------------------
+Aqui se muestra la respuesta del sistema experto cuando el usuario no da informacion (Cuando el usuario da no a todo)
+
+<img width="755" height="210" alt="image" src="https://github.com/user-attachments/assets/ed96a715-7778-4c32-973c-1263221efe8a" />
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+Y cuando el usuario da informacion parcial, es decir, insuficiente el sistema muestra lo siguiente:
+primero muestra las enfermedades que mas coinciden pero no las da como un diagnostico en si si no que no puede llegar a un diagnostico por que la informacion es insuficientes.
+
+<img width="656" height="603" alt="image" src="https://github.com/user-attachments/assets/3a2ddfdb-6f46-40c4-ab17-251473af3be6" />
+
+
+<img width="702" height="800" alt="image" src="https://github.com/user-attachments/assets/da15715f-1380-43b1-a467-ae08ab9aee50" />
+
+
+<img width="755" height="210" alt="image" src="https://github.com/user-attachments/assets/00839839-7f9d-4b25-a1c0-fff189d6942f" />
+
+------------------------------------------------------------------------------------------------------------------------------
+
 
 ## Base de Conocimiento
 ### Estructura de Reglas

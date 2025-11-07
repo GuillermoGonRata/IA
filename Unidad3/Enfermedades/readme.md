@@ -116,9 +116,12 @@ uno que realiza el diagnostico final y otro que permite cambiar las respuestas (
 <img width="989" height="612" alt="image" src="https://github.com/user-attachments/assets/60882796-3b8f-402d-9df6-5a27202f49f3" />
 
 -------------------------------------------------------------------------------------------------------------------------
-Y esta seccion se encarga de mostrar el diagnostico al que llego y porque llego a este (Mostrando los sintomas) 
+Y esta seccion se encarga de mostrar el diagnostico al que llego y porque llego a este (Mostrando los sintomas) y muestra sugerencias y/o recomendaciones de acuerdo a la enfermedad
 
 <img width="839" height="687" alt="image" src="https://github.com/user-attachments/assets/010b2637-0ce3-4c4a-a6b9-d1276a79b23a" />
+
+<img width="1027" height="331" alt="image" src="https://github.com/user-attachments/assets/89c5b1a7-6396-4655-9bc3-2ab8bc948cf5" />
+
 
 ---------------------------------------------------------------------------------------------------------------------------
 

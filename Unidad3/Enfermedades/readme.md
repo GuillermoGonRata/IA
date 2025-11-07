@@ -5,10 +5,10 @@ El Sistema Experto para Diagnóstico Respiratorio es una aplicación web desarro
 
 ## Estructura del Proyecto:
 sistema-experto-respiratorio/
-├─ app.py                    <- Aplicación principal con interfaz Streamlit.
-├─ motor_inferencia.py       <- Motor de inferencia y lógica de diagnóstico.
-├─ reglas_enfermedades.py    <- Base de conocimiento con reglas médicas.
-└─ README.md                 <- Este archivo.
+├─ app.py                    <- Aplicación principal con interfaz Streamlit. br
+├─ motor_inferencia.py       <- Motor de inferencia y lógica de diagnóstico. br
+├─ reglas_enfermedades.py    <- Base de conocimiento con reglas médicas. br
+└─ README.md                 <- Este archivo. br
 
 ## Clases
 ### Clase reglas_enfermedades.py:

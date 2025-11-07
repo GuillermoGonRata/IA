@@ -31,6 +31,7 @@ Y por tercero y último revisa si el tabaquismo es importante para determinar si
 Método calcular_conciencia:
 Primero obtiene la lista de síntomas obligatorios y comunes para evaluarlos posteriormente con la respuesta del usuario y va contando los que están presentes de acuerdo con si la respuesta del usuario fue un SI. Primero cuenta los síntomas obligatorios ya que estos son los mas importantes para la detección de las enfermedades y si falta alguno la certeza se va a reducir enormemente (máximo 50 % siendo originalmente un máximo de 70%). Luego va a hacer lo mismo con los síntomas comunes, pero estos pueden aportar hasta un máximo de 30% de certeza adicional.
 Al final se genera una explicación que esta constituida con los síntomas obligatorios y comunes para al final retornar la certeza total y la explicación.
+
 <img width="921" height="660" alt="image" src="https://github.com/user-attachments/assets/7b84c09b-7a15-4cc3-a9e0-e27d0c484216" />
 
 ------------------------------------------------------------------------------------------------------------------
@@ -41,6 +42,7 @@ Método diagnosticar:
 Este metodo llama a los dos metodos anteriores para realizar su diagnostico. Primero llama a tiene_coincidentia_completa ya que este compara que los sintomas coincidan en un 100% con la enfermedad para su
 diagnostico y si al final de las preguntas ninguno coincide se llama a calcular_coincidencia para retornar la enfermedad de mayor certeza.
 Al final retorna una lista de diccionarios donde cada uno contiene: enfermedad, certeza y explicacion. 
+
  <img width="921" height="824" alt="image" src="https://github.com/user-attachments/assets/b90dde67-5a25-47be-bc24-e3b927e8c363" />
 
 ------------------------------------------------------------------------------------------------------------------
@@ -65,7 +67,7 @@ Este metodo se encarga de revisar si una pregunta debe de mostrarse basandose en
 
 
 Metodo siguiente_indice:
-Este se encarga de determinar cual es la siguiente pregunta que debe mostrar al usuario. Se utiliza al responder cada pregunta con si o no o al presionar continuar.
+Este se encarga de determinar mediante indices cual es la siguiente pregunta que debe mostrar al usuario. Se utiliza al responder cada pregunta con si o no o al presionar continuar.
 
 
 <img width="472" height="100" alt="image" src="https://github.com/user-attachments/assets/d3837671-d11d-4ab3-bc34-eca78f0465fb" />
@@ -73,6 +75,21 @@ Este se encarga de determinar cual es la siguiente pregunta que debe mostrar al 
 
 --------------------------------------------------------------------------------------------------------------------
 
+Metodo anterior_indice:
+Este se encarga de determinar mediante indices cual fue la anterior pregunta por si el usuario quiere volver
+
+<img width="495" height="101" alt="image" src="https://github.com/user-attachments/assets/e44ff120-f46b-4348-bfad-126dd5aef652" />
+
+---------------------------------------------------------------------------------------------------------------------
+Arreglo de preguntas: Luego tenemos un arreglo con las preguntas disponibles y sus categorias son:
+* Datos demograficos (edad y tabaquismo).
+* Sintomas principales.
+* Sintomas adicionales.
+* Hallazgos fisicos.
+* Examenes de laboratorio.
+<img width="1217" height="324" alt="image" src="https://github.com/user-attachments/assets/163123fb-5c2c-4e1e-a0ea-098f9e428865" />
+
+---------------------------------------------------------------------------------------------------------------------
 
 ## Enfermedades
 Enfermedad	    Síntomas Clave	                Contagiosidad	Duración

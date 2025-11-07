@@ -59,6 +59,8 @@ Metodo pregunta_disponible:
 Este metodo se encarga de revisar si una pregunta debe de mostrarse basandose en las respuestas previas. (Quizas no se vea mucho en ejecución debido a que hay muchas similitudes en los sintomas de la base de conocimiento).
 
 <img width="423" height="131" alt="image" src="https://github.com/user-attachments/assets/d6bef361-9394-4f82-a39b-2330aba88749" />
+
+
 -------------------------------------------------------------------------------------------------------------------
 
 
@@ -67,6 +69,8 @@ Este se encarga de determinar cual es la siguiente pregunta que debe mostrar al 
 
 
 <img width="472" height="100" alt="image" src="https://github.com/user-attachments/assets/d3837671-d11d-4ab3-bc34-eca78f0465fb" />
+
+
 --------------------------------------------------------------------------------------------------------------------
 
 

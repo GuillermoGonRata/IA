@@ -38,9 +38,33 @@ Al final se genera una explicación que esta constituida con los síntomas oblig
 
 
 Método diagnosticar:
+Este metodo llama a los dos metodos anteriores para realizar su diagnostico. Primero llama a tiene_coincidentia_completa ya que este compara que los sintomas coincidan en un 100% con la enfermedad para su
+diagnostico y si al final de las preguntas ninguno coincide se llama a calcular_coincidencia para retornar la enfermedad de mayor certeza.
+Al final retorna una lista de diccionarios donde cada uno contiene: enfermedad, certeza y explicacion. 
  <img width="921" height="824" alt="image" src="https://github.com/user-attachments/assets/b90dde67-5a25-47be-bc24-e3b927e8c363" />
 
 ------------------------------------------------------------------------------------------------------------------
+
+### Clase app.py
+Esta clase es en pocas palabras la interfaz y funciona con un metodo main que tiene los siguientes metodos:
+
+Metodo determinar_grupo_edad:
+Este metodo se encarga de guardar y clasificar la edad (en años) que ingresa el usuario. Esto es importante ya que hay enfermedades que son mas riesgosas en ciertos grupos de edad
+<img width="624" height="330" alt="image" src="https://github.com/user-attachments/assets/b047f28d-abb5-4e5f-841c-ec800a1cb83b" />
+
+------------------------------------------------------------------------------------------------------------------
+
+Metodo pregunta_disponible:
+Este metodo se encarga de revisar si una pregunta debe de mostrarse basandose en las respuestas previas. (Quizas no se vea mucho en ejecución debido a que hay muchas similitudes en los sintomas de la base de conocimiento)
+<img width="423" height="131" alt="image" src="https://github.com/user-attachments/assets/d6bef361-9394-4f82-a39b-2330aba88749" />
+-------------------------------------------------------------------------------------------------------------------
+
+
+Metodo siguiente_indice:
+Este se encarga de determinar cual es la siguiente pregunta que debe mostrar al usuario. Se utiliza al responder cada pregunta con si o no o al presionar continuar.
+<img width="472" height="100" alt="image" src="https://github.com/user-attachments/assets/d3837671-d11d-4ab3-bc34-eca78f0465fb" />
+--------------------------------------------------------------------------------------------------------------------
+
 
 ## Enfermedades
 Enfermedad	    Síntomas Clave	                Contagiosidad	Duración

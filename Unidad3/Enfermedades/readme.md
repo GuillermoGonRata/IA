@@ -10,6 +10,35 @@ sistema-experto-respiratorio/
 ├─ reglas_enfermedades.py    <- Base de conocimiento con reglas médicas.
 └─ README.md                 <- Este archivo.
 
+## Clases
+### Clase reglas_enfermedades.py:
+Esta clase funge como base de conocimientos y contiene los hechos y reglas de las enfermedades que serán tomados por el motor de inferencia para llegar a un diagnostico certero.
+<img width="921" height="727" alt="image" src="https://github.com/user-attachments/assets/abeaa050-0211-4819-8368-5a2243d860ae" />
+
+
+### Clase motor_inferencia.py:
+Dentro de esta clase tenemos el método “tiene_coincidencia_completa” la cual se encarga de verificar que haya una coincidencia exacta de los síntomas del usuario con alguna enfermedad y lo hace en 3 pasos. 
+Primero compara los síntomas obligatorios si uno no coincide, retorna falso y descarta la enfermedad.
+Segundo revisa los factores de riesgo y si no coincide, retorna falso y descarta la enfermedad.
+Y por tercero y último revisa si el tabaquismo es importante para determinar si la enfermedad coincide con los síntomas.
+<img width="921" height="418" alt="image" src="https://github.com/user-attachments/assets/c780d379-99dc-411f-88ca-150e335ef954" />
+
+ 
+
+
+Método calcular_conciencia:
+Primero obtiene la lista de síntomas obligatorios y comunes para evaluarlos posteriormente con la respuesta del usuario y va contando los que están presentes de acuerdo con si la respuesta del usuario fue un SI. Primero cuenta los síntomas obligatorios ya que estos son los mas importantes para la detección de las enfermedades y si falta alguno la certeza se va a reducir enormemente (máximo 50 % siendo originalmente un máximo de 70%). Luego va a hacer lo mismo con los síntomas comunes, pero estos pueden aportar hasta un máximo de 30% de certeza adicional.
+Al final se genera una explicación que esta constituida con los síntomas obligatorios y comunes para al final retornar la certeza total y la explicación.
+<img width="921" height="660" alt="image" src="https://github.com/user-attachments/assets/7b84c09b-7a15-4cc3-a9e0-e27d0c484216" />
+
+
+
+
+
+Método diagnosticar:
+ <img width="921" height="824" alt="image" src="https://github.com/user-attachments/assets/b90dde67-5a25-47be-bc24-e3b927e8c363" />
+
+
 ## Enfermedades
 Enfermedad	    Síntomas Clave	                Contagiosidad	Duración
 COVID-19	    Tos, Fiebre, Disnea	            ALTA	        7-14 días

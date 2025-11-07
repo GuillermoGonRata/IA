@@ -1,5 +1,9 @@
 # Base de conocimiento con reglas programadas para enfermedades respiratorias
-
+# Cada enfermedad tiene sintomas obligatorios, comunes, examenes, factores de riesgo,
+# tabaquismo, contagiosidad, duracion y recomendaciones asociadas.
+# Esta estructura permite al motor de inferencia evaluar y diagnosticar
+# enfermedades basadas en la informacion del usuario.
+# Las recomendaciones son acciones especificas para el manejo de cada enfermedad.
 ENFERMEDADES = {
     "COVID-19": {
         "sintomas_obligatorios": ["TOS", "FIEBRE", "DISNEA"],

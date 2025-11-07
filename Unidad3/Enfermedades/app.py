@@ -93,33 +93,27 @@ def main():
         else:
             return "MAYOR_65"
     
-    def pregunta_disponible(pregunta, respuestas):
-        """
-        Comprueba si una pregunta está disponible según sus dependencias.
-        'depends_on' es un dict {clave: valor_esperado}.
-        """
-        if 'depends_on' not in pregunta:
-            return True
+    def pregunta_disponible(pregunta, respuestas):   # Verifica si una pregunta debe mostrarse
+        if 'depends_on' not in pregunta:             # basado en las respuestas previas del usuario.   
+            return True                              ## Si no tiene dependencias, siempre se muestra.   
         for k, v in pregunta['depends_on'].items():
             if respuestas.get(k) != v:
                 return False
         return True
 
-    def siguiente_indice(step_actual, preguntas, respuestas):
-        """Devuelve el siguiente índice disponible después de step_actual."""
-        for i in range(step_actual + 1, len(preguntas)):
-            if pregunta_disponible(preguntas[i], respuestas):
+    def siguiente_indice(step_actual, preguntas, respuestas): # Este metodo se enccarga de encontrar
+        for i in range(step_actual + 1, len(preguntas)):    # el siguiente indice disponible para mostrar la siguiente
+            if pregunta_disponible(preguntas[i], respuestas): # pregunta segun las respuestas previas del usuario.
                 return i
         return len(preguntas)
 
-    def anterior_indice(step_actual, preguntas, respuestas):
-        """Devuelve el anterior índice disponible antes de step_actual."""
-        for i in range(step_actual - 1, -1, -1):
-            if pregunta_disponible(preguntas[i], respuestas):
+    def anterior_indice(step_actual, preguntas, respuestas):    # Este metodo se encarga de encontrar 
+        for i in range(step_actual - 1, -1, -1):                # el indice anterior disponible para mostrar la pregunta
+            if pregunta_disponible(preguntas[i], respuestas):   # segun las respuestas previas del usuario.
                 return i
         return 0
     
-    preguntas = [
+    preguntas = [           # Lista de preguntas con sus datos asociados
         {"categoria": "Datos Demograficos", "pregunta": "Ingrese su edad en años:", "tipo": "numero", "key": "edad"},
         {"categoria": "Datos Demograficos", "pregunta": "Fuma actualmente?", "opciones": ["SI", "NO"], "key": "tabaquismo"},
         {"categoria": "Sintomas Principales", "pregunta": "Tiene tos?", "opciones": ["SI", "NO"], "key": "TOS"},
@@ -157,10 +151,9 @@ def main():
                     else:
                         st.write(f"{pregunta['pregunta']} -> {respuesta}")
 
-    def verificar_diagnostico_temprano(min_certeza=90):
-        # Mínimo de respuestas necesarias (3 síntomas)
-        sintomas_respondidos = {k: v for k, v in st.session_state.respuestas.items() 
-                              if k not in ['edad', 'tabaquismo']}
+    def verificar_diagnostico_temprano(min_certeza=90):                                 # Verifica si se puede realizar un diagnóstico temprano
+        sintomas_respondidos = {k: v for k, v in st.session_state.respuestas.items()    # basado en la certeza que alcance con las respuestas 
+                              if k not in ['edad', 'tabaquismo']}                       # actuales del usuario.
         if len(sintomas_respondidos) < 3:
             return False
 

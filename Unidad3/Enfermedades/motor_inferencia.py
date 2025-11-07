@@ -7,11 +7,8 @@ class MotorInferencia:
         self.factores_riesgo = {}
         self.examenes_usuario = {}
         
-    def tiene_coincidencia_completa(self, enfermedad, reglas):
-        """
-        Verifica si hay una coincidencia completa con los síntomas obligatorios.
-        """
-        # Verificar sintomas obligatorios
+    def tiene_coincidencia_completa(self, enfermedad, reglas):  #Este metodo se encarga de verificar si hay una coincidencia completa
+        # Verificar sintomas obligatorios                       # con los sintomas obligatorios de una enfermedad
         for sintoma in reglas["sintomas_obligatorios"]:
             if self.sintomas_usuario.get(sintoma) != "SI":
                 return False
@@ -28,13 +25,10 @@ class MotorInferencia:
                 
         return True
 
-    def calcular_coincidencia(self, enfermedad, reglas):
-        """
-        Calcula certeza basada en síntomas obligatorios y comunes presentes.
-        """
-        obligatorios = reglas.get("sintomas_obligatorios", [])
-        comunes = reglas.get("sintomas_comunes", [])
-        
+    def calcular_coincidencia(self, enfermedad, reglas): # Este metodo calcula la certeza de una enfermedad
+        obligatorios = reglas.get("sintomas_obligatorios", []) #basado en los sintomas obligatorios y comunes
+        comunes = reglas.get("sintomas_comunes", [])    #proporcionando una explicacion detallada
+                                                        #de los sintomas encontrados.
         # Verificar síntomas obligatorios
         if not obligatorios:
             return 0.0, []
@@ -63,11 +57,10 @@ class MotorInferencia:
         
         return certeza_total, explicacion
     
-    def diagnosticar(self):
-        """Realiza el diagnostico basado en las reglas"""
-        # Primero buscar coincidencias completas
-        for enfermedad, reglas in ENFERMEDADES.items():
-            if self.tiene_coincidencia_completa(enfermedad, reglas):
+    def diagnosticar(self):                                                         #Este metodo realiza el diagnostico
+        # Primero buscar coincidencias completas                                    #llamando a los metodos anteriores
+        for enfermedad, reglas in ENFERMEDADES.items():                             #y devolviendo los resultados
+            if self.tiene_coincidencia_completa(enfermedad, reglas):                # con toda la informacion relevante
                 return [{
                     "enfermedad": enfermedad,
                     "certeza": 100,
@@ -79,7 +72,7 @@ class MotorInferencia:
                 }]
         
         # Si no hay coincidencia completa, continuar con el diagnóstico normal
-        resultados = []
+        resultados = []                                                               
         for enfermedad, reglas in ENFERMEDADES.items():
             certeza, explicacion = self.calcular_coincidencia(enfermedad, reglas)
             if certeza > 10:  # Solo considerar enfermedades con al menos 10% de certeza

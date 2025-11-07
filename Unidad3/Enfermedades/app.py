@@ -93,199 +93,131 @@ def main():
         else:
             return "MAYOR_65"
     
-    # Mostrar progreso
-    total_pasos = 16
-    if st.session_state.step < total_pasos:
-        progreso = st.session_state.step / total_pasos
-        st.progress(progreso)
-        st.write(f"Progreso: {st.session_state.step}/{total_pasos}")
-        st.write("---")
+    def pregunta_disponible(pregunta, respuestas):
+        """
+        Comprueba si una pregunta está disponible según sus dependencias.
+        'depends_on' es un dict {clave: valor_esperado}.
+        """
+        if 'depends_on' not in pregunta:
+            return True
+        for k, v in pregunta['depends_on'].items():
+            if respuestas.get(k) != v:
+                return False
+        return True
+
+    def siguiente_indice(step_actual, preguntas, respuestas):
+        """Devuelve el siguiente índice disponible después de step_actual."""
+        for i in range(step_actual + 1, len(preguntas)):
+            if pregunta_disponible(preguntas[i], respuestas):
+                return i
+        return len(preguntas)
+
+    def anterior_indice(step_actual, preguntas, respuestas):
+        """Devuelve el anterior índice disponible antes de step_actual."""
+        for i in range(step_actual - 1, -1, -1):
+            if pregunta_disponible(preguntas[i], respuestas):
+                return i
+        return 0
     
-    # Preguntas en orden
     preguntas = [
-        {
-            "categoria": "Datos Demograficos",
-            "pregunta": "Ingrese su edad en años:",
-            "tipo": "numero",
-            "key": "edad"
-        },
-        {
-            "categoria": "Datos Demograficos", 
-            "pregunta": "Fuma actualmente?",
-            "opciones": ["SI", "NO"],
-            "key": "tabaquismo"
-        },
-        {
-            "categoria": "Sintomas Principales",
-            "pregunta": "Tiene tos?",
-            "opciones": ["SI", "NO"],
-            "key": "TOS"
-        },
-        {
-            "categoria": "Sintomas Principales",
-            "pregunta": "Tiene fiebre?",
-            "opciones": ["SI", "NO"],
-            "key": "FIEBRE"
-        },
-        {
-            "categoria": "Sintomas Principales",
-            "pregunta": "Tiene dificultad para respirar?",
-            "opciones": ["SI", "NO"],
-            "key": "DISNEA"
-        },
-        {
-            "categoria": "Sintomas Principales", 
-            "pregunta": "Tiene silbidos al respirar?",
-            "opciones": ["SI", "NO"],
-            "key": "SIBILANCIA"
-        },
-        {
-            "categoria": "Sintomas Principales",
-            "pregunta": "Tiene dolor en el pecho?",
-            "opciones": ["SI", "NO"],
-            "key": "DOLOR_PECHO"
-        },
-        {
-            "categoria": "Sintomas Principales",
-            "pregunta": "Se siente fatigado?",
-            "opciones": ["SI", "NO"],
-            "key": "FATIGA"
-        },
-        {
-            "categoria": "Sintomas Adicionales",
-            "pregunta": "Tiene congestion nasal?",
-            "opciones": ["SI", "NO"],
-            "key": "CONGESTION_NASAL"
-        },
-        {
-            "categoria": "Sintomas Adicionales",
-            "pregunta": "Tiene dolor de garganta?",
-            "opciones": ["SI", "NO"],
-            "key": "DOLOR_GARGANTA"
-        },
-        {
-            "categoria": "Sintomas Adicionales",
-            "pregunta": "Tiene expectoracion?",
-            "opciones": ["SI", "NO"],
-            "key": "EXPECTORACION"
-        },
-        {
-            "categoria": "Sintomas Adicionales",
-            "pregunta": "Tiene dolor de cabeza?",
-            "opciones": ["SI", "NO"],
-            "key": "CEFALEA"
-        },
-        {
-            "categoria": "Sintomas Adicionales",
-            "pregunta": "Tiene dolores musculares?",
-            "opciones": ["SI", "NO"],
-            "key": "MIALGIAS"
-        },
-        {
-            "categoria": "Hallazgos Fisicos",
-            "pregunta": "Se escuchan crepitantes en la auscultacion?",
-            "opciones": ["SI", "NO"],
-            "key": "CREPITANTES"
-        },
-        {
-            "categoria": "Hallazgos Fisicos",
-            "pregunta": "Se escuchan ronquidos respiratorios?",
-            "opciones": ["SI", "NO"],
-            "key": "RONQUIDOS"
-        },
-        {
-            "categoria": "Examenes de Laboratorio", 
-            "pregunta": "Tiene PCR positiva?",
-            "opciones": ["SI", "NO"],
-            "key": "PCR_POSITIVA"
-        },
-        {
-            "categoria": "Examenes de Laboratorio",
-            "pregunta": "Tiene radiografia de torax anormal?",
-            "opciones": ["SI", "NO"],
-            "key": "RADIOGRAFIA_ANORMAL"
-        }
+        {"categoria": "Datos Demograficos", "pregunta": "Ingrese su edad en años:", "tipo": "numero", "key": "edad"},
+        {"categoria": "Datos Demograficos", "pregunta": "Fuma actualmente?", "opciones": ["SI", "NO"], "key": "tabaquismo"},
+        {"categoria": "Sintomas Principales", "pregunta": "Tiene tos?", "opciones": ["SI", "NO"], "key": "TOS"},
+        {"categoria": "Sintomas Principales", "pregunta": "Tiene fiebre?", "opciones": ["SI", "NO"], "key": "FIEBRE"},
+        {"categoria": "Sintomas Principales", "pregunta": "Tiene dificultad para respirar?", "opciones": ["SI", "NO"], "key": "DISNEA"},
+        {"categoria": "Sintomas Principales", "pregunta": "Tiene silbidos al respirar?", "opciones": ["SI", "NO"], "key": "SIBILANCIA", "depends_on": {"DISNEA": "SI"}},
+        {"categoria": "Sintomas Principales", "pregunta": "Tiene dolor en el pecho?", "opciones": ["SI", "NO"], "key": "DOLOR_PECHO", "depends_on": {"DISNEA": "SI"}},
+        {"categoria": "Sintomas Principales", "pregunta": "Se siente fatigado?", "opciones": ["SI", "NO"], "key": "FATIGA"},
+        {"categoria": "Sintomas Adicionales", "pregunta": "Tiene congestion nasal?", "opciones": ["SI", "NO"], "key": "CONGESTION_NASAL"},
+        {"categoria": "Sintomas Adicionales", "pregunta": "Tiene dolor de garganta?", "opciones": ["SI", "NO"], "key": "DOLOR_GARGANTA"},
+        {"categoria": "Sintomas Adicionales", "pregunta": "Tiene expectoracion?", "opciones": ["SI", "NO"], "key": "EXPECTORACION", "depends_on": {"TOS": "SI"}},
+        {"categoria": "Sintomas Adicionales", "pregunta": "Tiene dolor de cabeza?", "opciones": ["SI", "NO"], "key": "CEFALEA"},
+        {"categoria": "Sintomas Adicionales", "pregunta": "Tiene dolores musculares?", "opciones": ["SI", "NO"], "key": "MIALGIAS"},
+        {"categoria": "Hallazgos Fisicos", "pregunta": "Se escuchan crepitantes en la auscultacion?", "opciones": ["SI", "NO"], "key": "CREPITANTES", "depends_on": {"EXPECTORACION": "SI"}},
+        {"categoria": "Hallazgos Fisicos", "pregunta": "Se escuchan ronquidos respiratorios?", "opciones": ["SI", "NO"], "key": "RONQUIDOS"},
+        {"categoria": "Examenes de Laboratorio", "pregunta": "Tiene PCR positiva?", "opciones": ["SI", "NO"], "key": "PCR_POSITIVA"},
+        {"categoria": "Examenes de Laboratorio", "pregunta": "Tiene radiografia de torax anormal?", "opciones": ["SI", "NO"], "key": "RADIOGRAFIA_ANORMAL"}
     ]
     
     # Mostrar preguntas anteriores respondidas
-    if st.session_state.step > 0 and st.session_state.step < len(preguntas):
-        with st.expander("Ver respuestas anteriores", expanded=False):
-            for i in range(st.session_state.step):
-                pregunta = preguntas[i]
-                if "tipo" in pregunta and pregunta["tipo"] == "numero":
-                    respuesta = st.session_state.respuestas.get(pregunta["key"], "No respondido")
-                    st.write(f"{pregunta['pregunta']} -> {respuesta} anos")
-                else:
-                    respuesta = st.session_state.respuestas.get(pregunta["key"], "No respondido")
-                    st.write(f"{pregunta['pregunta']} -> {respuesta}")
-    
-    # Mostrar pregunta actual
     if st.session_state.step < len(preguntas):
         pregunta_actual = preguntas[st.session_state.step]
-        
-        st.markdown(f'<div class="pregunta-actual">', unsafe_allow_html=True)
-        st.write(f"### {pregunta_actual['categoria']}")
-        st.write(f"**{pregunta_actual['pregunta']}**")
-        
-        # Para pregunta de edad (numero)
-        if "tipo" in pregunta_actual and pregunta_actual["tipo"] == "numero":
-            edad = st.number_input("Edad:", min_value=0, max_value=120, value=30, step=1, key="edad_input")
-            
+    else:
+        pregunta_actual = None
+
+    # Mostrar respuestas ya guardadas
+    if st.session_state.respuestas:
+        with st.expander("Ver respuestas anteriores", expanded=False):
+            for pregunta in preguntas:
+                key = pregunta.get("key")
+                if key and key in st.session_state.respuestas:
+                    respuesta = st.session_state.respuestas.get(key, "No respondido")
+                    if pregunta.get("tipo") == "numero":
+                        st.write(f"{pregunta['pregunta']} -> {respuesta} años")
+                    else:
+                        st.write(f"{pregunta['pregunta']} -> {respuesta}")
+
+    # Si hay una pregunta activa, mostrarla
+        # Si hay una pregunta activa, mostrarla
+    if pregunta_actual is not None:
+        # Mostrar el texto de la pregunta siempre
+        st.markdown(f"**{pregunta_actual.get('pregunta')}**")
+
+        # Si es entrada numérica
+        if pregunta_actual.get("tipo") == "numero":
+            edad = st.number_input(
+                label=pregunta_actual.get('pregunta'),
+                min_value=0, max_value=120, value=30, step=1,
+                key=f"num_{pregunta_actual['key']}"
+            )
             col1, col2 = st.columns([1, 1])
             with col1:
-                if st.button("Continuar", use_container_width=True, key="btn_continuar"):
+                if st.button("Continuar", use_container_width=True, key=f"btn_continuar_{pregunta_actual['key']}"):
                     st.session_state.respuestas[pregunta_actual['key']] = edad
-                    st.session_state.step += 1
+                    st.session_state.step = siguiente_indice(st.session_state.step, preguntas, st.session_state.respuestas)
                     st.rerun()
             with col2:
-                if st.button("Atras", use_container_width=True, key="btn_atras_edad") and st.session_state.step > 0:
-                    st.session_state.step -= 1
+                if st.button("Atras", use_container_width=True, key=f"btn_atras_{pregunta_actual['key']}") and st.session_state.step > 0:
+                    st.session_state.step = anterior_indice(st.session_state.step, preguntas, st.session_state.respuestas)
                     st.rerun()
         else:
-            # Para preguntas SI/NO, usar botones
+            # Mostrar opciones SI/NO para preguntas binarias (y el texto ya mostrado arriba)
             col1, col2, col3 = st.columns([1, 1, 1])
             with col1:
-                if st.button(f"SI", use_container_width=True, key=f"si_{pregunta_actual['key']}"):
+                if st.button("SI", use_container_width=True, key=f"si_{pregunta_actual['key']}"):
                     st.session_state.respuestas[pregunta_actual['key']] = "SI"
-                    st.session_state.step += 1
+                    st.session_state.step = siguiente_indice(st.session_state.step, preguntas, st.session_state.respuestas)
                     st.rerun()
             with col2:
-                if st.button(f"NO", use_container_width=True, key=f"no_{pregunta_actual['key']}"):
+                if st.button("NO", use_container_width=True, key=f"no_{pregunta_actual['key']}"):
                     st.session_state.respuestas[pregunta_actual['key']] = "NO"
-                    st.session_state.step += 1
+                    st.session_state.step = siguiente_indice(st.session_state.step, preguntas, st.session_state.respuestas)
                     st.rerun()
             with col3:
                 if st.button("Atras", use_container_width=True, key=f"atras_{pregunta_actual['key']}") and st.session_state.step > 0:
-                    st.session_state.step -= 1
+                    st.session_state.step = anterior_indice(st.session_state.step, preguntas, st.session_state.respuestas)
                     st.rerun()
-        
-        st.markdown('</div>', unsafe_allow_html=True)
-    
-    # Mostrar boton de diagnostico cuando todas las preguntas esten respondidas
-    elif st.session_state.step == len(preguntas) and not st.session_state.diagnostico_realizado:
+
+    # Si ya no hay preguntas por responder, mostrar resumen y botón de diagnóstico
+    else:
         st.markdown('<div class="diagnostico-box">', unsafe_allow_html=True)
         st.success("Todas las preguntas han sido respondidas!")
         st.write("### Resumen de respuestas:")
-        
         for pregunta in preguntas:
-            if "tipo" in pregunta and pregunta["tipo"] == "numero":
-                respuesta = st.session_state.respuestas.get(pregunta["key"], "No respondido")
-                st.write(f"{pregunta['pregunta']} -> {respuesta} anos")
+            key = pregunta.get("key")
+            respuesta = st.session_state.respuestas.get(key, "No respondido")
+            if pregunta.get("tipo") == "numero":
+                st.write(f"{pregunta['pregunta']} -> {respuesta} años")
             else:
-                respuesta = st.session_state.respuestas.get(pregunta["key"], "No respondido")
                 st.write(f"{pregunta['pregunta']} -> {respuesta}")
-        
+
         col1, col2 = st.columns([1, 1])
         with col1:
             if st.button("Realizar Diagnostico", type="primary", use_container_width=True, key="btn_diagnostico"):
                 with st.spinner("Analizando sintomas..."):
                     motor = MotorInferencia()
-                    
-                    # Convertir edad a grupo de riesgo
                     edad_numero = st.session_state.respuestas.get('edad', 30)
                     grupo_edad = determinar_grupo_edad(edad_numero)
-                    
-                    # Pasar respuestas al motor
                     motor.sintomas_usuario = {k: v for k, v in st.session_state.respuestas.items() if k not in ['edad', 'tabaquismo']}
                     motor.factores_riesgo = {
                         "edad": grupo_edad,
@@ -295,7 +227,6 @@ def main():
                         "PCR_POSITIVA": st.session_state.respuestas.get('PCR_POSITIVA', 'NO'),
                         "RADIOGRAFIA_ANORMAL": st.session_state.respuestas.get('RADIOGRAFIA_ANORMAL', 'NO')
                     }
-                    
                     resultados = motor.diagnosticar()
                     st.session_state.resultados = resultados
                     st.session_state.diagnostico_realizado = True
@@ -304,7 +235,6 @@ def main():
             if st.button("Editar Respuestas", use_container_width=True, key="btn_editar"):
                 st.session_state.step = 0
                 st.rerun()
-        
         st.markdown('</div>', unsafe_allow_html=True)
     
     # Mostrar resultados del diagnostico

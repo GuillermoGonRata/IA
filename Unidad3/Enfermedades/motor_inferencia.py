@@ -86,7 +86,7 @@ class MotorInferencia:
             st.warning("No se encontraron enfermedades que coincidan con los sintomas ingresados.")
             return
         
-        for i, resultado in enumerate(resultados[:5]):  # Top 5 resultados
+        for i, resultado in enumerate(resultados[:1]):  # Top 5 resultados
             with st.container():
                 col1, col2 = st.columns([3, 1])
                 

@@ -22,6 +22,66 @@ ENFERMEDADES = {
         "duracion": "5-7",
         "certeza_base": 0.85
     },
+    "ASMA": {
+        "sintomas_obligatorios": ["DISNEA", "SIBILANCIAS"],
+        "sintomas_comunes": ["TOS", "OPRESION_PECHO", "FATIGA"],
+        "examenes": ["ESPIROMETRIA_REDUCIDA"],
+        "factores_riesgo": ["HISTORIAL_FAMILIAR_ASMA"],
+        "tabaquismo": "NO",
+        "contagiosidad": "NO_APLICA",
+        "duracion": "CRONICA",
+        "certeza_base": 0.8
+        },
+    "NEUMONIA": {
+        "sintomas_obligatorios": ["FIEBRE", "TOS", "DISNEA"],
+        "sintomas_comunes": ["DOLOR_PECHO", "EXPECTORACION", "CEFALEA", "MIALGIAS"],
+        "examenes": ["RADIOGRAFIA_ANORMAL", "ESPUTO_POSITIVO"],
+        "factores_riesgo": ["MAYOR_65", "INMUNODEPRESION"],
+        "tabaquismo": "NO",
+        "contagiosidad": "MODERADA",
+        "duracion": "10-14",
+        "certeza_base": 0.88
+    },
+    "RESFRIADO_COMUN": {
+        "sintomas_obligatorios": ["CONGESTION_NASAL", "DOLOR_GARGANTA"],
+        "sintomas_comunes": ["TOS_LEVE", "FIEBRE_BAJA", "ESTORNUDOS"],
+        "examenes": [],
+        "factores_riesgo": [],
+        "tabaquismo": "NO",
+        "contagiosidad": "MODERADA",
+        "duracion": "3-7",
+        "certeza_base": 0.75
+    },
+    "BRONQUITIS_AGUDA": {
+        "sintomas_obligatorios": ["TOS", "EXPECTORACION"],
+        "sintomas_comunes": ["FIEBRE_BAJA", "DISNEA_LEVE", "DOLOR_PECHO"],
+        "examenes": ["RADIOGRAFIA_NORMAL"],
+        "factores_riesgo": ["TABAQUISMO"],
+        "tabaquismo": "SI",
+        "contagiosidad": "BAJA",
+        "duracion": "7-10",
+        "certeza_base": 0.78
+    },
+    "TUBERCULOSIS": {
+        "sintomas_obligatorios": ["TOS_PROLONGADA", "FIEBRE", "SUDORACION_NOCTURNA"],
+        "sintomas_comunes": ["PERDIDA_PESO", "FATIGA", "DOLOR_PECHO"],
+        "examenes": ["ESPUTO_POSITIVO", "RADIOGRAFIA_ANORMAL"],
+        "factores_riesgo": ["INMUNODEPRESION", "CONTACTO_TBC"],
+        "tabaquismo": "NO",
+        "contagiosidad": "ALTA",
+        "duracion": "VARIOS_MESES",
+        "certeza_base": 0.9
+    },
+    "H1N1": {
+        "sintomas_obligatorios": ["TOS", "FIEBRE"],
+        "sintomas_comunes": ["DISNEA_LEVE", "FATIGA", "CONGESTION_NASAL", "DOLOR_GARGANTA", "CEFALEA", "MIALGIAS"],
+        "examenes": ["PCR_POSITIVA"],
+        "factores_riesgo": ["MAYOR_65", "EMBARAZO"],
+        "tabaquismo": "NO",
+        "contagiosidad": "ALTA",
+        "duracion": "5-7",
+        "certeza_base": 0.86
+    }
     
-    # ... (mantén el resto de las enfermedades igual, pero asegúrate de que todos los valores sean "SI"/"NO")
+   
 }

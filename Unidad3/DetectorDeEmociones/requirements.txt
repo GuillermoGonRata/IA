@@ -1,0 +1,10 @@
+opencv-python
+mediapipe
+tensorflow>=2.9
+keras
+numpy
+pandas
+matplotlib
+scikit-learn
+tqdm
+Pillow

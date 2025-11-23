@@ -1,0 +1,6 @@
+& C:/Users/Guill/AppData/Local/Programs/Python/Python313/python.exe -m pip install --upgrade pip
+& C:/Users/Guill/AppData/Local/Programs/Python/Python313/python.exe -m pip install -r "c:/Users/Guill/Downloads/files/requirements.txt"
+
+Cualquiera de los dos
+
+& C:/Users/Guill/AppData/Local/Programs/Python/Python313/python.exe -m pip install --upgrade pip; & C:/Users/Guill/AppData/Local/Programs/Python/Python313/python.exe -m pip install -r "c:/Users/Guill/Downloads/files/requirements.txt"

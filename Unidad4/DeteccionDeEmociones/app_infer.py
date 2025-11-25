@@ -49,5 +49,9 @@ if __name__ == "__main__":
             cv2.rectangle(frame, (x,y),(x+w,y+h),(0,255,0),2)
             cv2.putText(frame, label, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0,255,0),2)
         cv2.imshow("Detect & Emotion", frame)
-        if cv2.waitKey(1) & 0xFF == 27: break
-    cap.release(); cv2.destroyAllWindows()
+        key = cv2.waitKey(1) & 0xFF
+        # Salir con ESC (27) o 'q'
+        if key == 27 or key == ord('q'):
+            break
+    cap.release()
+    cv2.destroyAllWindows()

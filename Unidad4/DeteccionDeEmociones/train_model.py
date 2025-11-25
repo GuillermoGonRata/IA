@@ -5,6 +5,9 @@ import torch
 from torch import nn, optim
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, models
+from torchvision.models import resnet18, ResNet18_Weights
+import torch.nn as nn
+
 
 class CocoClassificationDataset(Dataset):
     def __init__(self, ann_path, images_dir, transform=None):
@@ -67,54 +70,89 @@ def build_dataloaders(data_root, batch_size=32, img_size=224, num_workers=4):
     return train_loader, valid_loader, train_ds, valid_ds, num_classes
 
 def create_model(num_classes, pretrained=True):
-    model = models.resnet18(pretrained=pretrained)
+    if pretrained:
+        # Usa los pesos más recientes de ImageNet
+        weights = ResNet18_Weights.DEFAULT
+    else:
+        weights = None
+
+    model = resnet18(weights=weights)
     in_ft = model.fc.in_features
-    model.fc = nn.Linear(in_ft, num_classes)
+    if pretrained:
+        for param in model.parameters():
+            param.requires_grad = False
+        model.fc = nn.Linear(in_ft, num_classes)
+
     return model
+
 
 def train(args):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     train_loader, valid_loader, train_ds, valid_ds, num_classes = build_dataloaders(
         args.data_root, batch_size=args.batch_size, img_size=args.img_size, num_workers=args.num_workers)
+
+    # Crear modelo con pesos preentrenados
     model = create_model(num_classes, pretrained=args.pretrained).to(device)
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=args.lr)
+
+    # Fase 1: entrenar solo la capa final
+    optimizer = optim.Adam(model.fc.parameters(), lr=args.lr)
     best_acc = 0.0
     os.makedirs(args.output_dir, exist_ok=True)
+
     inv = {v:k for k,v in train_ds.id2label.items()}
     label_map = {str(i): train_ds.cat_map.get(inv[i], str(inv[i])) for i in inv}
     with open(os.path.join(args.output_dir, 'label_map.json'), 'w', encoding='utf-8') as f:
         json.dump(label_map, f, ensure_ascii=False, indent=2)
-    for epoch in range(1, args.epochs+1):
-        model.train()
-        running_loss = running_corrects = total = 0
-        for images, labels in tqdm(train_loader, desc=f"Epoch {epoch} [train]"):
-            images, labels = images.to(device), labels.to(device)
-            optimizer.zero_grad()
-            outputs = model(images)
-            loss = criterion(outputs, labels)
-            loss.backward(); optimizer.step()
-            running_loss += loss.item() * images.size(0)
-            preds = outputs.argmax(dim=1)
-            running_corrects += (preds == labels).sum().item()
-            total += images.size(0)
-        train_loss, train_acc = running_loss/total, running_corrects/total
-        model.eval()
-        val_loss = val_corrects = val_total = 0
-        with torch.no_grad():
-            for images, labels in tqdm(valid_loader, desc=f"Epoch {epoch} [valid]"):
-                images, labels = images.to(device), labels.to(device)
-                outputs = model(images); loss = criterion(outputs, labels)
-                val_loss += loss.item() * images.size(0)
-                preds = outputs.argmax(dim=1)
-                val_corrects += (preds == labels).sum().item(); val_total += images.size(0)
-        val_loss, val_acc = val_loss/val_total, val_corrects/val_total
-        print(f"Epoch {epoch}: train_acc={train_acc:.4f} val_acc={val_acc:.4f}")
-        if val_acc > best_acc:
-            best_acc = val_acc
-            torch.save(model.state_dict(), os.path.join(args.output_dir, 'best_model.pth'))
-            print(f"Saved best model (val_acc={best_acc:.4f})")
+
+    print("=== Fase 1: entrenando solo la capa final ===")
+    for epoch in range(1, args.epochs_phase1+1):
+        best_acc = run_epoch(model, train_loader, valid_loader, criterion, optimizer, device, epoch, best_acc, args.output_dir)
+
+    # Fase 2: descongelar todo el modelo y entrenar con LR más pequeño
+    for param in model.parameters():
+        param.requires_grad = True
+    optimizer = optim.Adam(model.parameters(), lr=args.lr_phase2)
+
+    print("=== Fase 2: fine-tuning completo ===")
+    for epoch in range(args.epochs_phase1+1, args.epochs_phase1+args.epochs_phase2+1):
+        best_acc = run_epoch(model, train_loader, valid_loader, criterion, optimizer, device, epoch, best_acc, args.output_dir)
+
     print("Finished. Best val acc:", best_acc)
+
+
+def run_epoch(model, train_loader, valid_loader, criterion, optimizer, device, epoch, best_acc, output_dir):
+    model.train()
+    running_loss = running_corrects = total = 0
+    for images, labels in tqdm(train_loader, desc=f"Epoch {epoch} [train]"):
+        images, labels = images.to(device), labels.to(device)
+        optimizer.zero_grad()
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+        loss.backward(); optimizer.step()
+        running_loss += loss.item() * images.size(0)
+        preds = outputs.argmax(dim=1)
+        running_corrects += (preds == labels).sum().item()
+        total += images.size(0)
+    train_acc = running_corrects/total
+
+    model.eval()
+    val_loss = val_corrects = val_total = 0
+    with torch.no_grad():
+        for images, labels in tqdm(valid_loader, desc=f"Epoch {epoch} [valid]"):
+            images, labels = images.to(device), labels.to(device)
+            outputs = model(images); loss = criterion(outputs, labels)
+            val_loss += loss.item() * images.size(0)
+            preds = outputs.argmax(dim=1)
+            val_corrects += (preds == labels).sum().item(); val_total += images.size(0)
+    val_acc = val_corrects/val_total
+
+    print(f"Epoch {epoch}: train_acc={train_acc:.4f} val_acc={val_acc:.4f}")
+    if val_acc > best_acc:
+        best_acc = val_acc
+        torch.save(model.state_dict(), os.path.join(output_dir, 'best_model.pth'))
+        print(f"Saved best model (val_acc={best_acc:.4f})")
+    return best_acc
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -122,9 +160,12 @@ if __name__ == "__main__":
     parser.add_argument('--output_dir', default='models')
     parser.add_argument('--epochs', type=int, default=10)
     parser.add_argument('--batch_size', type=int, default=16)
-    parser.add_argument('--lr', type=float, default=1e-4)
+    parser.add_argument('--lr', type=float, default=1e-3)
     parser.add_argument('--img_size', type=int, default=224)
     parser.add_argument('--num_workers', type=int, default=4)
     parser.add_argument('--pretrained', action='store_true')
+    parser.add_argument('--epochs_phase1', type=int, default=5)   # solo capa final
+    parser.add_argument('--epochs_phase2', type=int, default=15)  # fine-tuning completo
+    parser.add_argument('--lr_phase2', type=float, default=1e-4)  # LR más pequeño para fine-tuning
     args = parser.parse_args()
     train(args)

@@ -7,6 +7,7 @@ from torchvision import transforms, models
 from torch.utils.data import Dataset, DataLoader, WeightedRandomSampler
 from tqdm import tqdm
 import json
+from PIL import Image
 
 class CocoClassificationDataset(Dataset):
     def __init__(self, ann_path, images_dir, transform=None):

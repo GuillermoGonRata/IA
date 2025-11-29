@@ -4,7 +4,7 @@ import tensorflow as tf
 
 # Cargar modelo entrenado
 model = tf.keras.models.load_model("emotion_model.h5")
-class_names = ['angry', 'happy', 'sad', 'surprised', 'neutral']  # ajusta según tu dataset
+class_names = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise'] # ajusta según tu dataset
 
 # Cargar clasificador Haar para detección de rostros
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')

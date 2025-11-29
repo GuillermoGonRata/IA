@@ -2,14 +2,12 @@ import cv2
 import numpy as np
 import tensorflow as tf
 
-# Cargar modelo entrenado
 model = tf.keras.models.load_model("emotion_model.h5")
-class_names = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise'] # ajusta según tu dataset
+class_names = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
 
-# Cargar clasificador Haar para detección de rostros
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
-# Iniciar cámara
+
 cap = cv2.VideoCapture(0)
 
 while True:

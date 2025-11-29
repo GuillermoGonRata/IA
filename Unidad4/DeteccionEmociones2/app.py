@@ -8,8 +8,10 @@ model = load_model("best_model.h5")
 
 class_names = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
 
+# Clasificador de rostros
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
+# Abrir la cámara
 cap = cv2.VideoCapture(0)
 
 while True:
@@ -34,7 +36,9 @@ while True:
 
     cv2.imshow('Detección de emociones', frame)
 
+    # 🔹 Salir del programa al presionar la tecla 'q'
     if cv2.waitKey(1) & 0xFF == ord('q'):
+        print("Programa terminado por el usuario (tecla 'q').")
         break
 
 cap.release()

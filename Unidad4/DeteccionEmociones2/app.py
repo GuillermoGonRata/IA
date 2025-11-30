@@ -6,7 +6,7 @@ from tensorflow.keras.models import load_model
 # Cargar el modelo entrenado
 model = load_model("best_model.h5")
 
-class_names = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
+class_names = ['angry', 'fear', 'happy', 'neutral', 'sad', 'surprise']
 
 # Clasificador de rostros
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
